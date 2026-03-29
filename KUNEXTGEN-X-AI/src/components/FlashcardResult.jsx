@@ -1,6 +1,22 @@
 import { useState } from "react";
 import ExportButton from "./ExportButton";
 
+const TH_CARD = "Flashcard";
+const TH_CARDS = "\u0e43\u0e1a";
+const TH_GREAT = "\u0e40\u0e22\u0e35\u0e48\u0e22\u0e21\u0e21\u0e32\u0e01";
+const TH_GOOD = "\u0e17\u0e33\u0e44\u0e14\u0e49\u0e14\u0e35";
+const TH_REVIEW = "\u0e17\u0e1a\u0e17\u0e27\u0e19\u0e2d\u0e35\u0e01\u0e04\u0e23\u0e31\u0e49\u0e07";
+const TH_REMEMBERED = "\u0e08\u0e33\u0e44\u0e14\u0e49";
+const TH_NOT_SURE = "\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e41\u0e21\u0e48\u0e19";
+const TH_PLAY_AGAIN = "\u0e40\u0e25\u0e48\u0e19\u0e43\u0e2b\u0e21\u0e48";
+const TH_CREATE_AGAIN = "\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e43\u0e2b\u0e21\u0e48";
+const TH_SHOW_QUESTION = "\u0e41\u0e2a\u0e14\u0e07\u0e14\u0e49\u0e32\u0e19\u0e04\u0e33\u0e16\u0e32\u0e21";
+const TH_SHOW_ANSWER = "\u0e41\u0e2a\u0e14\u0e07\u0e14\u0e49\u0e32\u0e19\u0e04\u0e33\u0e15\u0e2d\u0e1a";
+const TH_HINT_ANSWER = "\u0e04\u0e33\u0e15\u0e2d\u0e1a";
+const TH_HINT_QUESTION = "\u0e04\u0e33\u0e16\u0e32\u0e21";
+const TH_TAP = "\u0e41\u0e15\u0e30\u0e2b\u0e23\u0e37\u0e2d\u0e04\u0e25\u0e34\u0e01\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e14\u0e39\u0e04\u0e33\u0e15\u0e2d\u0e1a";
+const TH_CLICK_CARD = "\u0e04\u0e25\u0e34\u0e01\u0e17\u0e35\u0e48\u0e01\u0e32\u0e23\u0e4c\u0e14\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e14\u0e39\u0e04\u0e33\u0e15\u0e2d\u0e1a";
+
 export default function FlashcardResult({ result, onReset, fileName }) {
   const cards = result?.data?.cards || [];
   const [idx, setIdx] = useState(0);
@@ -40,10 +56,12 @@ export default function FlashcardResult({ result, onReset, fileName }) {
     return (
       <div className="result-container flashcard-result">
         <div className="result-header">
-          <span className="result-title">🃏 Flashcard</span>
+          <span className="result-title">{TH_CARD}</span>
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
             <ExportButton result={result} mode="flashcard" fileName={fileName} />
-            <span className="result-badge">{cards.length} ใบ</span>
+            <span className="result-badge">
+              {cards.length} {TH_CARDS}
+            </span>
           </div>
         </div>
 
@@ -56,23 +74,23 @@ export default function FlashcardResult({ result, onReset, fileName }) {
             <div className="score-text">
               <h3>
                 {known.length >= cards.length * 0.7
-                  ? "เยี่ยมมาก 🎉"
+                  ? TH_GREAT
                   : known.length >= cards.length * 0.4
-                  ? "ทำได้ดี 👍"
-                  : "ทบทวนอีกครั้ง 📚"}
+                    ? TH_GOOD
+                    : TH_REVIEW}
               </h3>
               <p>
-                จำได้ {known.length} · ยังไม่แม่น {unknown.length}
+                {TH_REMEMBERED} {known.length} - {TH_NOT_SURE} {unknown.length}
               </p>
             </div>
           </div>
 
           <div className="flashcard-finish-actions">
             <button className="reset-btn" onClick={restart} type="button">
-              ↻ เล่นใหม่
+              {TH_PLAY_AGAIN}
             </button>
             <button className="reset-btn" onClick={onReset} type="button">
-              + สร้างใหม่
+              {TH_CREATE_AGAIN}
             </button>
           </div>
         </div>
@@ -86,7 +104,7 @@ export default function FlashcardResult({ result, onReset, fileName }) {
   return (
     <div className="result-container flashcard-result">
       <div className="result-header">
-        <span className="result-title">🃏 Flashcard</span>
+        <span className="result-title">{TH_CARD}</span>
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <ExportButton result={result} mode="flashcard" fileName={fileName} />
           <span className="result-badge">
@@ -110,14 +128,14 @@ export default function FlashcardResult({ result, onReset, fileName }) {
               handleFlip();
             }
           }}
-          aria-label={flipped ? "แสดงด้านคำถาม" : "แสดงด้านคำตอบ"}
+          aria-label={flipped ? TH_SHOW_QUESTION : TH_SHOW_ANSWER}
         >
           <div className={`flashcard-inner${flipped ? " flipped" : ""}`}>
-            <div className="card-hint">{flipped ? "💡 คำตอบ" : "📝 คำถาม"}</div>
+            <div className="card-hint">{flipped ? TH_HINT_ANSWER : TH_HINT_QUESTION}</div>
 
             <div className="card-content">{flipped ? card.answer : card.question}</div>
 
-            {!flipped && <div className="card-tap">แตะหรือคลิกเพื่อดูคำตอบ</div>}
+            {!flipped && <div className="card-tap">{TH_TAP}</div>}
           </div>
         </button>
 
@@ -131,7 +149,7 @@ export default function FlashcardResult({ result, onReset, fileName }) {
               }}
               type="button"
             >
-              🤔 ยังไม่แม่น
+              {TH_NOT_SURE}
             </button>
 
             <button
@@ -142,11 +160,11 @@ export default function FlashcardResult({ result, onReset, fileName }) {
               }}
               type="button"
             >
-              ✓ จำได้แล้ว
+              {TH_REMEMBERED}
             </button>
           </div>
         ) : (
-          <div className="flashcard-helper-text">คลิกที่การ์ดเพื่อดูคำตอบ</div>
+          <div className="flashcard-helper-text">{TH_CLICK_CARD}</div>
         )}
       </div>
     </div>

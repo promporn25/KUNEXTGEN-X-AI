@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+Ôªøimport { useEffect, useMemo, useState } from "react";
 import { styles } from "../components/styles";
 import UploadTab from "../components/UploadTab";
 import ModeSelector from "../components/ModeSelector";
@@ -47,7 +47,7 @@ export default function Home({
 
   useEffect(() => {
     document.body.classList.toggle("dark", theme === "dark");
-    document.title = "KUNextGen ? AI";
+    document.title = "KUNextGen x AI";
   }, [theme]);
 
   const canSubmit =
@@ -63,6 +63,14 @@ export default function Home({
   const changeTab = (id) => {
     setTab(id);
     reset();
+  };
+
+  const goHome = () => {
+    setLoading(false);
+    setResult(null);
+    setError("");
+    setSourceSnapshot("");
+    setSourceSectionsSnapshot([]);
   };
 
   const loadDemo = (sample) => {
@@ -119,7 +127,7 @@ export default function Home({
 
       if (mode === "quiz") {
         if (!data.data?.questions) {
-        setError(" √È“ß¢ÈÕ Õ∫‰¡Ë‰¥È °√ÿ≥“≈Õß„À¡Ë");
+        setError("‡∏™‡∏£‡πâ‡∏≤‡∏á‡∏Ç‡πâ‡∏≠‡∏™‡∏≠‡∏ö‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
         } else {
           setSourceSnapshot(data.sourceText || "");
           setSourceSectionsSnapshot(data.sourceSections || []);
@@ -136,7 +144,7 @@ export default function Home({
         }
       } else if (mode === "flashcard") {
         if (!data.data?.cards) {
-        setError(" √È“ß Flashcard ‰¡Ë‰¥È °√ÿ≥“≈Õß„À¡Ë");
+        setError("‡∏™‡∏£‡πâ‡∏≤‡∏á Flashcard ‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
         } else {
           setSourceSnapshot(data.sourceText || "");
           setSourceSectionsSnapshot(data.sourceSections || []);
@@ -165,7 +173,7 @@ export default function Home({
         });
       }
     } catch (e) {
-      setError("‡™◊ËÕ¡µËÕ backend ‰¡Ë‰¥È - µ√«® Õ∫«Ë“ server.mjs ¬—ß√—πÕ¬ŸË");
+      setError("‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ backend ‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ - ‡∏ï‡∏£‡∏ß‡∏à‡∏™‡∏≠‡∏ö‡∏ß‡πà‡∏≤ server.mjs ‡∏¢‡∏±‡∏á‡∏£‡∏±‡∏ô‡∏≠‡∏¢‡∏π‡πà");
     }
 
     setLoading(false);
@@ -173,19 +181,19 @@ export default function Home({
 
   const btnLabel = loading
     ? isEnglish
-      ? "? Processing..."
-      : "\u231B \u0e01\u0e33\u0e25\u0e31\u0e07\u0e1b\u0e23\u0e30\u0e21\u0e27\u0e25\u0e1c\u0e25..."
+      ? "Processing..."
+      : "\u0e01\u0e33\u0e25\u0e31\u0e07\u0e1b\u0e23\u0e30\u0e21\u0e27\u0e25\u0e1c\u0e25..."
     : mode === "quiz"
     ? isEnglish
-      ? "?? Create Quiz"
-      : "\uD83D\uDCDD \u0e2a\u0e23\u0e49\u0e32\u0e07\u0e02\u0e49\u0e2d\u0e2a\u0e2d\u0e1a"
+      ? "Create Quiz"
+      : "\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e02\u0e49\u0e2d\u0e2a\u0e2d\u0e1a"
     : mode === "flashcard"
     ? isEnglish
-      ? "?? Create Flashcards"
-      : "\uD83C\uDCCF \u0e2a\u0e23\u0e49\u0e32\u0e07 Flashcard"
+      ? "Create Flashcards"
+      : "\u0e2a\u0e23\u0e49\u0e32\u0e07 Flashcard"
     : isEnglish
-    ? "?? Summarize"
-    : "?? \u0e2a\u0e23\u0e38\u0e1b\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e2b\u0e32";
+    ? "Summarize"
+    : "\u0e2a\u0e23\u0e38\u0e1b\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e2b\u0e32";
 
   const rawResult = result?.type === "text" ? result.raw : null;
 
@@ -222,17 +230,28 @@ export default function Home({
       <style>{styles(theme)}</style>
 
       <nav className="topnav">
-        <div className="topnav-left">
+        <button
+          className="topnav-left"
+          type="button"
+          onClick={goHome}
+          style={{
+            background: "none",
+            border: "none",
+            padding: 0,
+            cursor: "pointer",
+          }}
+          aria-label={isEnglish ? "Go to home" : "‡∏Å‡∏•‡∏±‡∏ö‡∏´‡∏ô‡πâ‡∏≤‡∏´‡∏•‡∏±‡∏Å"}
+        >
           <div className="topnav-badge">KU</div>
 
           <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
             <span className="topnav-title">
               <span className="topnav-ku">KUNextGen</span>
-              <span className="topnav-x"> {"?"} </span>
+              <span className="topnav-x"> {"x"} </span>
               <span className="topnav-ai">AI</span>
             </span>
           </div>
-        </div>
+        </button>
 
         <div className="topnav-right">
           <HistoryPanel onRestore={handleRestore} />
@@ -317,7 +336,7 @@ export default function Home({
               type="button"
               style={{ height: 30, padding: "0 12px" }}
             >
-              {isEnglish ? "Log out" : "ÕÕ°"}
+              {isEnglish ? "Log out" : "‡∏≠‡∏≠‡∏Å"}
             </button>
           </div>
         </div>
@@ -386,22 +405,6 @@ export default function Home({
                 }
               />
             )}
-
-            {lang === "en" && (
-              <div
-                style={{
-                  padding: "10px 12px",
-                  borderRadius: 12,
-                  background: "var(--amber-dim)",
-                  color: "var(--amber)",
-                  fontSize: 12,
-                  border: "1px solid rgba(201,152,53,0.14)",
-                }}
-              >
-                Results will be displayed in English.
-              </div>
-            )}
-
             <ModeSelector
               mode={mode}
               setMode={setMode}
@@ -423,7 +426,7 @@ export default function Home({
                   fontSize: 13,
                 }}
               >
-                {"??"} {error}
+                {isEnglish ? "Error:" : "‡∏Ç‡πâ‡∏≠‡∏ú‡∏¥‡∏î‡∏û‡∏•‡∏≤‡∏î:"} {error}
               </div>
             )}
           </div>
@@ -444,10 +447,8 @@ export default function Home({
           {!hasResult && !loading && (
             <div className="empty-state">
               <div className="empty-main">
-                <div className="empty-greeting">{"?"}</div>
-
                 <h2 className="empty-title">
-                  {isEnglish ? "Ready to Summarize" : "æ√ÈÕ¡ √ÿª‡π◊ÈÕÀ“"}
+                  {isEnglish ? "Ready to Summarize" : "‡∏û‡∏£‡πâ‡∏≠‡∏°‡∏™‡∏£‡∏∏‡∏õ‡πÄ‡∏ô‡∏∑‡πâ‡∏≠‡∏´‡∏≤"}
                 </h2>
 
                 <p className="empty-sub">
@@ -459,9 +460,9 @@ export default function Home({
                     </>
                   ) : (
                     <>
-                      Õ—ª‚À≈¥‰ø≈ÏÀ√◊Õ«“ß¢ÈÕ§«“¡∑“ß¥È“π´È“¬
+                      ‡∏≠‡∏±‡∏õ‡πÇ‡∏´‡∏•‡∏î‡πÑ‡∏ü‡∏•‡πå‡∏´‡∏£‡∏∑‡∏≠‡∏ß‡∏≤‡∏á‡∏Ç‡πâ‡∏≠‡∏Ñ‡∏ß‡∏≤‡∏°‡∏ó‡∏≤‡∏á‡∏î‡πâ‡∏≤‡∏ô‡∏ã‡πâ‡∏≤‡∏¢
                       <br />
-                      ·≈È«‡≈◊Õ°√Ÿª·∫∫°“√ √ÿª∑’ËµÈÕß°“√
+                      ‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏•‡∏∑‡∏≠‡∏Å‡∏£‡∏π‡∏õ‡πÅ‡∏ö‡∏ö‡∏Å‡∏≤‡∏£‡∏™‡∏£‡∏∏‡∏õ‡∏ó‡∏µ‡πà‡∏ï‡πâ‡∏≠‡∏á‡∏Å‡∏≤‡∏£
                     </>
                   )}
                 </p>
@@ -475,9 +476,9 @@ export default function Home({
                           "Click Summarize, then ask AI follow-up questions",
                         ]
                       : [
-                          "‡≈◊Õ°‰ø≈Ï PDF, DOCX, À√◊Õ PPTX À√◊Õ«“ß¢ÈÕ§«“¡",
-                          "‡≈◊Õ°√Ÿª·∫∫°“√ √ÿª:  √ÿª¬ËÕ, Key Points, ¢ÈÕ Õ∫ À√◊Õ Flashcard",
-                          "°¥ √ÿª‡π◊ÈÕÀ“ ·≈È«∂“¡ AI ‡æ‘Ë¡‡µ‘¡‰¥È∑—π∑’",
+                          "‡πÄ‡∏•‡∏∑‡∏≠‡∏Å‡πÑ‡∏ü‡∏•‡πå PDF, DOCX, ‡∏´‡∏£‡∏∑‡∏≠ PPTX ‡∏´‡∏£‡∏∑‡∏≠‡∏ß‡∏≤‡∏á‡∏Ç‡πâ‡∏≠‡∏Ñ‡∏ß‡∏≤‡∏°",
+                          "‡πÄ‡∏•‡∏∑‡∏≠‡∏Å‡∏£‡∏π‡∏õ‡πÅ‡∏ö‡∏ö‡∏Å‡∏≤‡∏£‡∏™‡∏£‡∏∏‡∏õ: ‡∏™‡∏£‡∏∏‡∏õ‡∏¢‡πà‡∏≠, Key Points, ‡∏Ç‡πâ‡∏≠‡∏™‡∏≠‡∏ö ‡∏´‡∏£‡∏∑‡∏≠ Flashcard",
+                          "‡∏Å‡∏î‡∏™‡∏£‡∏∏‡∏õ‡πÄ‡∏ô‡∏∑‡πâ‡∏≠‡∏´‡∏≤ ‡πÅ‡∏•‡πâ‡∏ß‡∏ñ‡∏≤‡∏° AI ‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÄ‡∏ï‡∏¥‡∏°‡πÑ‡∏î‡πâ‡∏ó‡∏±‡∏ô‡∏ó‡∏µ",
                         ]
                   ).map((textValue, i) => (
                     <div
@@ -494,7 +495,7 @@ export default function Home({
             </div>
           )}
 
-          {loading && <ProgressLoader mode={mode} />}
+          {loading && <ProgressLoader mode={mode} lang={lang} />}
 
           {hasResult && (
             <div className="result-wrap">
@@ -503,6 +504,7 @@ export default function Home({
                 resultText={rawResult}
                 fileName={file?.name}
                 mode={mode}
+                lang={lang}
               />
 
               {result.type === "text" && (
@@ -535,5 +537,9 @@ export default function Home({
     </>
   );
 }
+
+
+
+
 
 
