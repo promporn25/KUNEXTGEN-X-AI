@@ -1,53 +1,109 @@
-const MODES = [
-  { id: "summary",   icon: "📋", label: "สรุปย่อ",   desc: "สรุปเนื้อหาหลัก" },
-  { id: "keypoints", icon: "🎯", label: "Key Points", desc: "จุดสำคัญ" },
-  { id: "keywords",  icon: "🔑", label: "คำสำคัญ",   desc: "ไฮไลต์คำสำคัญ" },
-  { id: "quiz",      icon: "📝", label: "ข้อสอบ",     desc: "สร้างข้อสอบ" },
-];
+const MODE_COPY = {
+  th: {
+    title: "รูปแบบการสรุป",
+    difficulty: "ระดับความยาก",
+    questionCount: "จำนวนข้อ",
+    cardCount: "จำนวนการ์ด",
+    levels: {
+      easy: "ง่าย",
+      medium: "กลาง",
+      hard: "ยาก",
+    },
+    modes: [
+      { id: "summary", icon: "📋", label: "สรุปย่อ", desc: "เนื้อหาหลัก" },
+      { id: "keypoints", icon: "🎯", label: "Key Points", desc: "จุดสำคัญ" },
+      { id: "keywords", icon: "🔑", label: "คำสำคัญ", desc: "ไฮไลต์คำ" },
+      { id: "quiz", icon: "📝", label: "ข้อสอบ", desc: "MCQ" },
+      { id: "flashcard", icon: "🃏", label: "Flashcard", desc: "ถาม-ตอบ" },
+    ],
+  },
+  en: {
+    title: "Summary Format",
+    difficulty: "Difficulty",
+    questionCount: "Question Count",
+    cardCount: "Card Count",
+    levels: {
+      easy: "Easy",
+      medium: "Medium",
+      hard: "Hard",
+    },
+    modes: [
+      { id: "summary", icon: "📋", label: "Summary", desc: "Core ideas" },
+      { id: "keypoints", icon: "🎯", label: "Key Points", desc: "Main takeaways" },
+      { id: "keywords", icon: "🔑", label: "Keywords", desc: "Highlighted terms" },
+      { id: "quiz", icon: "📝", label: "Quiz", desc: "MCQ" },
+      { id: "flashcard", icon: "🃏", label: "Flashcard", desc: "Q&A cards" },
+    ],
+  },
+};
 
-export default function ModeSelector({ mode, setMode, difficulty, setDifficulty, qCount, setQCount }) {
+export default function ModeSelector({
+  mode,
+  setMode,
+  difficulty,
+  setDifficulty,
+  qCount,
+  setQCount,
+  lang = "th",
+}) {
+  const copy = MODE_COPY[lang] || MODE_COPY.th;
+
   return (
     <div className="options-panel">
-      <h4>เลือกรูปแบบการสรุป</h4>
+      <div className="panel-title">{copy.title}</div>
+
       <div className="options-grid">
-        {MODES.map(m => (
+        {copy.modes.map((item) => (
           <div
-            key={m.id}
-            className={`option-card${mode === m.id ? " selected" : ""}`}
-            onClick={() => setMode(m.id)}
+            key={item.id}
+            className={`option-card${mode === item.id ? " selected" : ""}`}
+            onClick={() => setMode(item.id)}
           >
-            <span className="option-icon">{m.icon}</span>
+            <span className="option-icon">{item.icon}</span>
             <div>
-              <div className="option-label">{m.label}</div>
-              <div className="option-desc">{m.desc}</div>
+              <div className="option-label">{item.label}</div>
+              <div className="option-desc">{item.desc}</div>
             </div>
           </div>
         ))}
       </div>
 
-      {mode === "quiz" && (
+      {(mode === "quiz" || mode === "flashcard") && (
         <div className="quiz-options">
-          <div className="section-label" style={{ marginTop: 16 }}>ระดับความยาก</div>
-          <div className="difficulty-row">
-            {[["easy", "ง่าย"], ["medium", "ปานกลาง"], ["hard", "ยาก"]].map(([d, l]) => (
-              <button
-                key={d}
-                className={`diff-btn ${d}${difficulty === d ? " sel" : ""}`}
-                onClick={() => setDifficulty(d)}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
+          {mode === "quiz" && (
+            <>
+              <div className="section-label">{copy.difficulty}</div>
+
+              <div className="difficulty-row">
+                {[
+                  ["easy", copy.levels.easy],
+                  ["medium", copy.levels.medium],
+                  ["hard", copy.levels.hard],
+                ].map(([value, label]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    className={`diff-btn ${value}${difficulty === value ? " sel" : ""}`}
+                    onClick={() => setDifficulty(value)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+
           <div className="count-row">
-            <label>จำนวนข้อ:</label>
+            <label className="count-label">
+              {mode === "flashcard" ? copy.cardCount : copy.questionCount}
+            </label>
             <input
               className="count-input"
               type="number"
               min={3}
-              max={15}
+              max={20}
               value={qCount}
-              onChange={e => setQCount(Number(e.target.value))}
+              onChange={(e) => setQCount(Number(e.target.value))}
             />
           </div>
         </div>

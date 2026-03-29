@@ -1,71 +1,117 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import ExportButton from "./ExportButton";
 
-export default function QuizResult({ result, difficulty, onReset }) {
-  const [quizState, setQuizState] = useState({});
-
+export default function QuizResult({ result, difficulty, onReset, fileName }) {
+  const [state, setState] = useState({});
   const qs = result?.data?.questions || [];
-  const answered = Object.keys(quizState).length;
-  const score = qs.filter((q, i) => quizState[i] === q.answer).length;
+  const answered = Object.keys(state).length;
 
-  const answerQuiz = (qi, ci) => {
-    if (quizState[qi] !== undefined) return;
-    setQuizState(prev => ({ ...prev, [qi]: ci }));
-  };
+  const score = useMemo(
+    () => qs.filter((q, i) => state[i] === q.answer).length,
+    [qs, state]
+  );
 
-  const diffLabel = difficulty === "easy" ? "ง่าย" : difficulty === "medium" ? "ปานกลาง" : "ยาก";
+  const difficultyLabel =
+    difficulty === "easy"
+      ? "ง่าย"
+      : difficulty === "medium"
+      ? "กลาง"
+      : difficulty === "hard"
+      ? "ยาก"
+      : "ทั่วไป";
+
+  if (!qs.length) return null;
 
   return (
-    <div className="result-container">
-      <div className="result-header">
-        <span className="result-title">📝 ข้อสอบ {qs.length} ข้อ · ระดับ{diffLabel}</span>
-        <span className="result-badge">{answered}/{qs.length} ตอบแล้ว</span>
-      </div>
-      <div className="result-body">
+    <div className="result-container quiz-result">
+      <div className="result-header quiz-result-header">
+        <div className="quiz-result-title-wrap">
+          <span className="result-title">📝 ข้อสอบ {qs.length} ข้อ</span>
+          <span className="quiz-difficulty-badge">ระดับ {difficultyLabel}</span>
+        </div>
 
-        {/* SCORE */}
-        {answered === qs.length && qs.length > 0 && (
-          <div className="score-bar">
-            <div className="score-circle">{score}/{qs.length}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <ExportButton result={result} mode="quiz" fileName={fileName} />
+          <span className="result-badge">
+            {answered}/{qs.length} ตอบแล้ว
+          </span>
+        </div>
+      </div>
+
+      <div className="result-body">
+        {answered === qs.length && (
+          <div className="score-bar quiz-score-bar">
+            <div className="score-circle">
+              {score}/{qs.length}
+            </div>
+
             <div className="score-text">
-              <h3>{score === qs.length ? "🎉 เยี่ยมมาก!" : score >= qs.length * 0.7 ? "👍 ทำได้ดี!" : "📚 ลองทบทวนอีกครั้ง"}</h3>
-              <p>คะแนน {Math.round(score / qs.length * 100)}% · ถูก {score} ข้อ ผิด {qs.length - score} ข้อ</p>
+              <h3>
+                {score === qs.length
+                  ? "เยี่ยมมาก 🎉"
+                  : score >= qs.length * 0.7
+                  ? "ทำได้ดี 👍"
+                  : "ทบทวนอีกครั้ง 📚"}
+              </h3>
+              <p>
+                {Math.round((score / qs.length) * 100)}% · ถูก {score} · ผิด {qs.length - score}
+              </p>
             </div>
           </div>
         )}
 
-        {/* QUESTIONS */}
         {qs.map((q, qi) => {
-          const isAnswered = quizState[qi] !== undefined;
+          const ans = state[qi];
+          const done = ans !== undefined;
+
           return (
             <div key={qi} className="quiz-question">
               <div className="q-num">ข้อที่ {qi + 1}</div>
               <div className="q-text">{q.question}</div>
+
               <div className="q-choices">
-                {q.choices.map((c, ci) => {
-                  let cls = "q-choice" + (isAnswered ? " answered" : "");
-                  if (isAnswered) {
-                    if (ci === q.answer) cls += " show-correct correct";
-                    else if (ci === quizState[qi]) cls += " wrong";
+                {q.choices.map((choice, ci) => {
+                  let cls = "q-choice";
+                  if (done) cls += " answered";
+                  if (done) {
+                    if (ci === q.answer) cls += " correct";
+                    else if (ci === ans) cls += " wrong";
                   }
+
                   return (
-                    <div key={ci} className={cls} onClick={() => answerQuiz(qi, ci)}>
-                      <span style={{ opacity: 0.5, minWidth: 20 }}>{["A", "B", "C", "D"][ci]}.</span>
-                      {c.replace(/^[A-D]\.\s*/, "")}
-                    </div>
+                    <button
+                      key={ci}
+                      type="button"
+                      className={cls}
+                      disabled={done}
+                      onClick={() => !done && setState((prev) => ({ ...prev, [qi]: ci }))}
+                    >
+                      <span className="q-choice-letter">
+                        {["A", "B", "C", "D"][ci] || ci + 1}
+                      </span>
+                      <span className="q-choice-text">
+                        {choice.replace(/^[A-D]\.\s*/, "")}
+                      </span>
+                    </button>
                   );
                 })}
               </div>
-              {isAnswered && (
+
+              {done && (
                 <div className="explain-box">
-                  <strong>💡 คำอธิบาย</strong>
-                  {q.explanation}
+                  <div className="explain-title">คำอธิบาย</div>
+                  <div className="explain-text">{q.explanation}</div>
                 </div>
               )}
             </div>
           );
         })}
 
-        <button className="reset-btn" onClick={onReset}>🔄 สร้างข้อสอบใหม่</button>
+        <div className="quiz-reset-wrap">
+          <button className="reset-btn" onClick={onReset} type="button">
+            ↻ สร้างใหม่
+          </button>
+        </div>
       </div>
     </div>
   );
