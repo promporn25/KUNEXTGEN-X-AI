@@ -2750,12 +2750,14 @@ export const baseStyles = `
       max-width: none;
       border-right: none;
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      overflow: visible;
     }
 
     .main-panel {
       padding: 28px 18px 42px;
       justify-content: flex-start;
       align-items: flex-start;
+      width: 100%;
     }
 
     .options-grid {
@@ -2881,9 +2883,49 @@ export const baseStyles = `
       font-size: 14px;
     }
 
+    .layout {
+      gap: 12px;
+    }
+
+    .sidebar {
+      border-bottom: none;
+      box-shadow: none;
+    }
+
+    .sidebar-inner {
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+
+    .sidebar-footer {
+      padding-top: 0;
+      padding-bottom: 0;
+      background: transparent;
+      border-top: none;
+    }
+
+    .action-btn {
+      height: 50px;
+      border-radius: 18px;
+    }
+
+    .main-panel {
+      width: 100%;
+      padding-top: 0;
+    }
+
+    .main-panel > *,
+    .result-wrap {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+    }
+
     .stats-bar {
       padding: 14px 12px;
       border-radius: 20px;
+      width: 100%;
+      max-width: none;
     }
 
     .stats-header {
