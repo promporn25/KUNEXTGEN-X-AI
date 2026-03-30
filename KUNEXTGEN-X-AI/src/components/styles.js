@@ -2941,7 +2941,7 @@ export const baseStyles = `
       z-index: 15;
       padding-top: 10px;
       padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-      background: linear-gradient(180deg, rgba(11,36,26,0), rgba(11,36,26,0.94) 30%);
+      background: linear-gradient(180deg, rgba(11,36,26,0), rgba(11,36,26,1) 30%);
       border-top: none;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
