@@ -2810,6 +2810,8 @@ export const baseStyles = `
 
     .topnav {
       gap: 10px;
+      padding-left: 12px;
+      padding-right: 12px;
     }
 
     .topnav-title {
@@ -2844,7 +2846,7 @@ export const baseStyles = `
     }
 
     .topnav-user-status {
-      font-size: 10px !important;
+      display: none;
     }
 
     .topnav-logout {
@@ -2868,21 +2870,27 @@ export const baseStyles = `
     }
 
     .tabs {
-      gap: 4px;
-      padding: 4px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      padding: 6px;
+      flex-wrap: nowrap;
+      border-radius: 18px;
     }
 
     .tab-btn {
-      height: 38px;
+      min-height: 44px;
+      height: auto;
       font-size: 12px;
-      min-width: calc(50% - 3px);
-      flex: 1 1 calc(50% - 3px);
+      min-width: 0;
+      padding: 10px 8px;
+      flex: 0 0 auto;
+      justify-content: center;
     }
 
     .upload-zone {
-      min-height: 215px;
-      padding: 24px 16px;
+      min-height: 190px;
+      padding: 20px 16px;
     }
 
     .empty-title {
@@ -2898,7 +2906,8 @@ export const baseStyles = `
     }
 
     .option-card {
-      min-height: 74px;
+      min-height: 82px;
+      padding: 16px 14px;
     }
 
     .difficulty-row {
@@ -2921,25 +2930,34 @@ export const baseStyles = `
     }
 
     .sidebar-inner {
+      gap: 14px;
       padding-top: 14px;
-      padding-bottom: 14px;
+      padding-bottom: 88px;
     }
 
     .sidebar-footer {
-      padding-top: 0;
-      padding-bottom: 0;
-      background: transparent;
+      position: sticky;
+      bottom: 0;
+      z-index: 15;
+      padding-top: 10px;
+      padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(180deg, rgba(11,36,26,0), rgba(11,36,26,0.94) 30%);
       border-top: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .action-btn {
-      height: 50px;
-      border-radius: 18px;
+      min-height: 56px;
+      height: 56px;
+      border-radius: 20px;
+      font-size: 16px;
+      box-shadow: 0 14px 30px rgba(10,51,35,0.26);
     }
 
     .main-panel {
       width: 100%;
-      padding-top: 20px;
+      padding-top: 18px;
     }
 
     .main-panel > *,
@@ -3034,7 +3052,7 @@ export const baseStyles = `
 
     .export-btn,
     .history-toggle {
-      height: 32px;
+      height: 36px;
       padding: 0 12px;
       font-size: 11px;
     }
@@ -3102,6 +3120,38 @@ export const baseStyles = `
 
     .trace-drawer.open {
       transform: translateY(0);
+    }
+
+    .url-input {
+      height: 52px;
+      font-size: 16px;
+    }
+
+    .text-input-area {
+      min-height: 180px;
+      font-size: 16px;
+      padding: 16px;
+      line-height: 1.75;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .sidebar .options-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .option-label {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
+    .option-desc {
+      font-size: 11px;
+      line-height: 1.4;
     }
   }
 .loader-card.progress-loader-card {
