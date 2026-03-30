@@ -889,10 +889,6 @@ export default function LoginPage({ onAuthSuccess }) {
             padding: 14px;
             min-height: 100dvh;
             display: block;
-            background:
-              radial-gradient(circle at top left, rgba(214,168,184,0.34), transparent 32%),
-              radial-gradient(circle at top right, rgba(255,255,255,0.9), transparent 28%),
-              linear-gradient(180deg, #f4e5ea 0%, #ecd7df 46%, #f7f3f5 100%);
           }
 
           .login-card {
@@ -918,24 +914,19 @@ export default function LoginPage({ onAuthSuccess }) {
             gap: 14px;
             align-items: center;
             text-align: center;
-            background:
-              radial-gradient(circle at top left, rgba(255,255,255,0.42), transparent 30%),
-              radial-gradient(circle at 82% 18%, rgba(151,52,100,0.34), transparent 22%),
-              linear-gradient(180deg, #c88dab 0%, #bb789d 54%, #a85a84 100%);
             box-shadow:
-              0 24px 44px rgba(103,38,70,0.16),
-              0 14px 28px rgba(6,20,27,0.08),
-              inset 0 1px 0 rgba(255,255,255,0.38);
+              0 24px 44px rgba(0,0,0,0.28),
+              inset 0 1px 0 rgba(255,255,255,0.05);
           }
 
           .login-right {
             margin: -16px 10px 0;
             border-radius: 28px;
             background:
-              radial-gradient(circle at top right, rgba(233,195,210,0.44), transparent 24%),
-              linear-gradient(180deg, #fffefe 0%, #f7f1f4 100%);
+              radial-gradient(circle at top right, rgba(255,255,255,0.7), transparent 28%),
+              linear-gradient(180deg, #f9fbfb 0%, #e2e8e8 100%);
             box-shadow:
-              0 18px 42px rgba(110,56,83,0.14),
+              0 18px 42px rgba(6,20,27,0.16),
               inset 0 1px 0 rgba(255,255,255,0.88);
           }
 
@@ -955,22 +946,15 @@ export default function LoginPage({ onAuthSuccess }) {
             height: 50px;
             border-radius: 14px;
             font-size: 18px;
-            background: rgba(255,255,255,0.75);
-            color: #7c3457;
-            box-shadow:
-              0 10px 24px rgba(94,29,61,0.14),
-              inset 0 1px 0 rgba(255,255,255,0.94);
           }
 
           .login-brand-name {
             font-size: 18px;
-            color: #fff7fb;
-            text-shadow: 0 6px 20px rgba(111,44,75,0.18);
           }
 
           .login-brand-x,
           .login-brand-ai {
-            color: rgba(255,255,255,0.86);
+            color: inherit;
           }
 
           .login-mobile-kicker {
@@ -980,9 +964,9 @@ export default function LoginPage({ onAuthSuccess }) {
             min-height: 34px;
             padding: 8px 14px;
             border-radius: 999px;
-            background: rgba(255,255,255,0.22);
-            border: 1px solid rgba(255,255,255,0.28);
-            color: rgba(255,255,255,0.92);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.82);
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.08em;
@@ -1002,10 +986,6 @@ export default function LoginPage({ onAuthSuccess }) {
             height: 116px;
             margin: 6px auto 4px;
             opacity: 1;
-            background: rgba(255,255,255,0.18);
-            box-shadow:
-              inset 0 1px 0 rgba(255,255,255,0.42),
-              0 18px 30px rgba(111,46,79,0.14);
           }
 
           .login-illus .login-illus-ring:nth-child(2) {
@@ -1020,8 +1000,6 @@ export default function LoginPage({ onAuthSuccess }) {
             width: 56px;
             height: 56px;
             font-size: 28px;
-            background: rgba(255,255,255,0.78);
-            color: #8e3f66;
           }
 
           .login-tagline {
@@ -1029,8 +1007,6 @@ export default function LoginPage({ onAuthSuccess }) {
             line-height: 0.98;
             max-width: 9ch;
             margin-bottom: 10px;
-            color: #fffafc;
-            text-shadow: 0 10px 28px rgba(105,40,71,0.2);
           }
 
           .login-sub {
@@ -1038,7 +1014,6 @@ export default function LoginPage({ onAuthSuccess }) {
             font-size: 13px;
             line-height: 1.65;
             margin-bottom: 14px;
-            color: rgba(255,248,251,0.84);
           }
 
           .login-chips {
@@ -1050,7 +1025,6 @@ export default function LoginPage({ onAuthSuccess }) {
 
           .login-form-heading {
             font-size: 26px;
-            color: #7c3457;
           }
 
           .login-stats {
@@ -1058,7 +1032,6 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-form-sub {
-            color: #91657a;
             margin-bottom: 18px;
           }
 
@@ -1066,50 +1039,23 @@ export default function LoginPage({ onAuthSuccess }) {
             gap: 8px;
             margin-bottom: 18px;
             border-radius: 18px;
-            background: rgba(164,97,129,0.08);
-            border: 1px solid rgba(164,97,129,0.12);
             padding: 6px;
           }
 
           .login-switch-btn {
             font-size: 13px;
             padding: 12px 12px;
-            color: #8d5c74;
             background: transparent;
           }
 
           .login-switch-btn.active {
-            background: linear-gradient(180deg, #b45d89 0%, #963969 100%);
-            color: #fffafc;
-            box-shadow: 0 10px 20px rgba(149,57,105,0.18);
-          }
-
-          .field-label {
-            color: #8c6276;
+            box-shadow: none;
           }
 
           .field-input,
           .submit-btn,
           .google-btn {
             height: 54px;
-          }
-
-          .field-input {
-            border-color: rgba(180,93,137,0.12);
-            background: rgba(255,255,255,0.84);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
-          }
-
-          .submit-btn {
-            background: linear-gradient(180deg, #b55f89 0%, #963969 100%);
-            color: #fff;
-            box-shadow: 0 16px 28px rgba(149,57,105,0.22);
-          }
-
-          .google-btn {
-            background: #fff;
-            border-color: rgba(180,93,137,0.14);
-            color: #6d5161;
           }
 
           .login-chip {
@@ -1120,9 +1066,7 @@ export default function LoginPage({ onAuthSuccess }) {
             font-size: 12px;
             text-align: center;
             border-radius: 16px;
-            color: #fffafc;
-            background: rgba(255,255,255,0.16);
-            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.06);
           }
 
           .login-chip:nth-child(n+5) {
