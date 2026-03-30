@@ -2931,7 +2931,7 @@ export const baseStyles = `
 
     .main-panel {
       width: 100%;
-      padding-top: 0;
+      padding-top: 20px;
     }
 
     .main-panel > *,
