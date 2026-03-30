@@ -7,6 +7,7 @@ import ResetPasswordPage from "./ResetPasswordPage";
 export default function App() {
   const [user,  setUser]  = useState(() => auth?.currentUser ?? null);
   const [authReady, setAuthReady] = useState(() => !!auth?.currentUser || !auth);
+  const [authTransitioning, setAuthTransitioning] = useState(false);
   const [theme, setTheme] = useState("light");
   const [lang,  setLang]  = useState("th");
 
@@ -17,6 +18,7 @@ export default function App() {
   useEffect(() => {
     const unsub = onAuthChanged((u) => {
       setUser(u ?? null);
+      setAuthTransitioning(false);
       setAuthReady(true);
     });
     return unsub;
@@ -31,7 +33,7 @@ export default function App() {
     return <ResetPasswordPage />;
   }
 
-  if (!authReady) {
+  if (!authReady || authTransitioning) {
     return (
       <div style={{
         minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
@@ -46,7 +48,15 @@ export default function App() {
   }
 
   if (!user) {
-    return <LoginPage onAuthSuccess={setUser} />;
+    return (
+      <LoginPage
+        onAuthSuccess={(nextUser) => {
+          setUser(nextUser ?? null);
+          setAuthTransitioning(true);
+          setAuthReady(false);
+        }}
+      />
+    );
   }
 
   return (

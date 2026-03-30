@@ -1,5 +1,6 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import { styles } from "../components/styles";
+import { useRef } from "react";
 import UploadTab from "../components/UploadTab";
 import ModeSelector from "../components/ModeSelector";
 import SummaryResult from "../components/SummaryResult";
@@ -40,6 +41,7 @@ export default function Home({
   const [sourceSnapshot, setSourceSnapshot] = useState("");
   const [sourceSectionsSnapshot, setSourceSectionsSnapshot] = useState([]);
   const [resultFileName, setResultFileName] = useState("");
+  const mainPanelRef = useRef(null);
 
   const theme = controlledTheme ?? themeState;
   const setTheme = controlledSetTheme ?? setThemeState;
@@ -101,6 +103,13 @@ export default function Home({
   const submit = async () => {
     setLoading(true);
     reset();
+
+    if (typeof window !== "undefined") {
+      requestAnimationFrame(() => {
+        mainPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
 
     const submittedFileName = tab === "upload" ? file?.name || "" : "";
     const submittedInputSnapshot =
@@ -471,7 +480,7 @@ export default function Home({
           </div>
         </aside>
 
-        <main className="main-panel">
+        <main className="main-panel" ref={mainPanelRef}>
           {!hasResult && !loading && (
             <div className="empty-state">
               <div className="empty-main">

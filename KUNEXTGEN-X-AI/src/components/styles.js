@@ -2773,42 +2773,42 @@ body.dark .empty-greeting {
 
   @media (max-width: 1180px) and (min-width: 821px) {
     .layout {
-      grid-template-columns: 306px minmax(0, 1fr);
+      grid-template-columns: 292px minmax(0, 1fr);
     }
 
     .sidebar-inner {
-      padding: 16px 14px 18px;
-      gap: 14px;
+      padding: 14px 12px 16px;
+      gap: 12px;
     }
 
     .options-panel {
-      padding: 12px;
-      margin-top: 4px;
+      padding: 10px;
+      margin-top: 2px;
     }
 
     .sidebar .options-grid {
-      gap: 10px;
+      gap: 8px;
     }
 
     .option-card {
-      min-height: 72px;
-      padding: 12px;
-      border-radius: 14px;
-      gap: 10px;
+      min-height: 64px;
+      padding: 10px 11px;
+      border-radius: 13px;
+      gap: 9px;
     }
 
     .option-label {
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .option-desc {
-      font-size: 11px;
-      line-height: 1.35;
+      font-size: 10px;
+      line-height: 1.3;
     }
 
     .quiz-options {
-      padding: 12px;
-      gap: 12px;
+      padding: 10px;
+      gap: 10px;
     }
 
     .count-input,
@@ -2820,53 +2820,53 @@ body.dark .empty-greeting {
     }
 
     .text-input-area {
-      min-height: 124px;
+      min-height: 116px;
     }
 
     .main-panel {
-      padding: 24px 24px 40px;
+      padding: 22px 22px 34px;
     }
 
     .empty-main {
-      max-width: 560px;
+      max-width: 500px;
     }
 
     .empty-title {
-      max-width: 10ch;
-      font-size: 40px;
-      margin-bottom: 12px;
+      max-width: 9ch;
+      font-size: 36px;
+      margin-bottom: 10px;
     }
 
     .empty-body {
-      max-width: 420px;
-      font-size: 14px;
-      margin-bottom: 20px;
+      max-width: 380px;
+      font-size: 13px;
+      margin-bottom: 16px;
     }
 
     .empty-steps {
-      max-width: 420px;
-      gap: 10px;
+      max-width: 380px;
+      gap: 8px;
     }
 
     .empty-step {
-      padding: 12px 14px;
-      font-size: 13px;
+      padding: 10px 12px;
+      font-size: 12px;
     }
 
     .loader-card,
     .loader-card.progress-loader-card {
-      max-width: 560px;
-      padding: 28px 24px;
-      border-radius: 24px;
+      max-width: 500px;
+      padding: 24px 20px;
+      border-radius: 22px;
     }
 
     .loader-card-inner,
     .progress-loader-inner {
-      min-height: 360px;
+      min-height: 320px;
     }
 
     .loader-title {
-      font-size: 28px;
+      font-size: 25px;
     }
   }
 
@@ -3058,8 +3058,8 @@ body.dark .empty-greeting {
     }
 
     .option-card {
-      min-height: 82px;
-      padding: 16px 14px;
+      min-height: 68px;
+      padding: 11px 10px;
     }
 
     .difficulty-row {
@@ -4667,15 +4667,15 @@ body.dark .empty-greeting {
     }
 
     .topnav-btn {
-      padding: 0 8px;
-      font-size: 11px;
-      min-height: 32px;
-      height: 32px;
+      padding: 0 7px;
+      font-size: 10px;
+      min-height: 31px;
+      height: 31px;
     }
 
     .topnav-user {
       border-radius: 14px !important;
-      padding: 3px 6px 3px 3px !important;
+      padding: 3px 4px 3px 3px !important;
     }
 
     .topnav-badge {
@@ -4683,17 +4683,29 @@ body.dark .empty-greeting {
       height: 26px;
     }
 
+    .topnav-user-avatar {
+      width: 26px !important;
+      height: 26px !important;
+    }
+
+    .topnav-logout {
+      padding: 0 6px !important;
+      font-size: 10px !important;
+    }
+
     /* On very small phones, hide lang toggle to prevent header overflow */
     .topnav-lang-btn {
-      display: none;
+      display: inline-flex;
+      min-width: 36px;
+      justify-content: center;
     }
 
     /* Compress history toggle to icon-only */
     .history-toggle {
-      padding: 0 8px;
+      padding: 0 6px;
       font-size: 0;
       gap: 0;
-      min-width: 34px;
+      min-width: 30px;
     }
 
     .history-toggle::before {
@@ -4717,17 +4729,17 @@ body.dark .empty-greeting {
     }
 
     .option-card {
-      min-height: 62px;
-      padding: 10px 9px;
-      gap: 8px;
+      min-height: 56px;
+      padding: 8px;
+      gap: 6px;
     }
 
     .option-label {
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .option-desc {
-      font-size: 10px;
+      font-size: 9px;
     }
 
     .upload-zone {
