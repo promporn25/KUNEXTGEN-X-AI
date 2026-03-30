@@ -38,6 +38,7 @@ export default function Home({
   const [inputSnapshot, setInputSnapshot] = useState("");
   const [sourceSnapshot, setSourceSnapshot] = useState("");
   const [sourceSectionsSnapshot, setSourceSectionsSnapshot] = useState([]);
+  const [resultFileName, setResultFileName] = useState("");
 
   const theme = controlledTheme ?? themeState;
   const setTheme = controlledSetTheme ?? setThemeState;
@@ -58,6 +59,7 @@ export default function Home({
   const reset = () => {
     setResult(null);
     setError("");
+    setResultFileName("");
   };
 
   const changeTab = (id) => {
@@ -69,6 +71,7 @@ export default function Home({
     setLoading(false);
     setResult(null);
     setError("");
+    setResultFileName("");
     setSourceSnapshot("");
     setSourceSectionsSnapshot([]);
   };
@@ -80,6 +83,7 @@ export default function Home({
   };
 
   const handleRestore = (item) => {
+    setResultFileName(item.fileName || "");
     if (item.type === "text") {
       setResult({ type: "text", raw: item.result });
     } else if (item.type === "quiz") {
@@ -97,9 +101,11 @@ export default function Home({
     setLoading(true);
     reset();
 
-    setInputSnapshot(
-      tab === "text" ? text : tab === "url" ? url : file?.name || ""
-    );
+    const submittedFileName = tab === "upload" ? file?.name || "" : "";
+    const submittedInputSnapshot =
+      tab === "text" ? text : tab === "url" ? url : submittedFileName;
+
+    setInputSnapshot(submittedInputSnapshot);
 
     try {
       const fd = new FormData();
@@ -129,11 +135,12 @@ export default function Home({
         if (!data.data?.questions) {
         setError("สร้างข้อสอบไม่ได้ กรุณาลองใหม่");
         } else {
+          setResultFileName(submittedFileName);
           setSourceSnapshot(data.sourceText || "");
           setSourceSectionsSnapshot(data.sourceSections || []);
           setResult({ type: "quiz", data: data.data });
           saveHistory({
-            fileName: file?.name,
+            fileName: submittedFileName,
             mode,
             type: "quiz",
             result: "",
@@ -146,11 +153,12 @@ export default function Home({
         if (!data.data?.cards) {
         setError("สร้าง Flashcard ไม่ได้ กรุณาลองใหม่");
         } else {
+          setResultFileName(submittedFileName);
           setSourceSnapshot(data.sourceText || "");
           setSourceSectionsSnapshot(data.sourceSections || []);
           setResult({ type: "flashcard", data: data.data });
           saveHistory({
-            fileName: file?.name,
+            fileName: submittedFileName,
             mode,
             type: "flashcard",
             result: "",
@@ -160,11 +168,12 @@ export default function Home({
           });
         }
       } else {
+        setResultFileName(submittedFileName);
         setSourceSnapshot(data.sourceText || "");
         setSourceSectionsSnapshot(data.sourceSections || []);
         setResult({ type: "text", raw: data.result });
         saveHistory({
-          fileName: file?.name,
+          fileName: submittedFileName,
           mode,
           type: "text",
           result: data.result,
@@ -506,7 +515,7 @@ export default function Home({
               <StatsBar
                 inputText={inputSnapshot}
                 resultText={rawResult}
-                fileName={file?.name}
+                fileName={resultFileName}
                 mode={mode}
                 lang={lang}
               />
@@ -515,7 +524,7 @@ export default function Home({
                 <SummaryResult
                   result={result}
                   mode={mode}
-                  fileName={file?.name}
+                  fileName={resultFileName}
                   sourceText={sourceSnapshot}
                   sourceSections={sourceSectionsSnapshot}
                   initialLang={lang}
@@ -526,11 +535,11 @@ export default function Home({
                   result={result}
                   difficulty={diff}
                   onReset={reset}
-                  fileName={file?.name}
+                  fileName={resultFileName}
                 />
               )}
               {result.type === "flashcard" && (
-                <FlashcardResult result={result} onReset={reset} fileName={file?.name} />
+                <FlashcardResult result={result} onReset={reset} fileName={resultFileName} />
               )}
 
               <AIChatPanel contentText={chatContent} mode={mode} />
