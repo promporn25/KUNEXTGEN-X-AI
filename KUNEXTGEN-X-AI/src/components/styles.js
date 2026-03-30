@@ -2921,12 +2921,17 @@ export const baseStyles = `
     }
 
     .layout {
-      gap: 12px;
+      gap: 0;
     }
 
     .sidebar {
+      width: 100%;
       border-bottom: none;
       box-shadow: none;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00)),
+        rgba(11, 36, 26, 1);
+      overflow: hidden;
     }
 
     .sidebar-inner {
