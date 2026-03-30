@@ -57,6 +57,20 @@ function mergeHistoryItems(primary = [], secondary = []) {
     .slice(0, MAX_ITEMS);
 }
 
+function buildPreview({ result, data, type, sourceText }) {
+  if (result) return `${String(result).slice(0, 120)}...`;
+
+  if (type === "quiz" && Array.isArray(data?.questions) && data.questions.length) {
+    return String(data.questions[0]?.question || "ข้อสอบ").slice(0, 120);
+  }
+
+  if (type === "flashcard" && Array.isArray(data?.cards) && data.cards.length) {
+    return String(data.cards[0]?.question || "Flashcard").slice(0, 120);
+  }
+
+  return String(sourceText || "ไม่มีตัวอย่างผลลัพธ์").slice(0, 120);
+}
+
 async function withTimeout(promise, timeoutMs = 7000) {
   let timer;
   return Promise.race([
@@ -117,7 +131,7 @@ export async function saveHistory({
     data: data || null,
     sourceText: sourceText || "",
     sourceSections: sourceSections || [],
-    preview: result ? `${String(result).slice(0, 120)}...` : "",
+    preview: buildPreview({ result, data, type, sourceText }),
     createdAt: new Date().toISOString(),
     dateLabel: new Date().toLocaleDateString("th-TH", {
       day: "numeric",
