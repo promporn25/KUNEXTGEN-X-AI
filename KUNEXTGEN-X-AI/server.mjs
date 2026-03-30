@@ -5,6 +5,8 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import OpenAI from "openai";
 
+const MIN_TEXT_LENGTH = 3;
+
 function buildParagraphSections(text, labelPrefix = 'ย่อหน้า') {
   const parts = String(text)
     .split(/\n{2,}/)
@@ -137,7 +139,7 @@ app.post("/api/translate-result", async (req, res) => {
   try {
     const { text, targetLang = "th" } = req.body || {};
 
-    if (!text || String(text).trim().length < 10) {
+    if (!text || String(text).trim().length < MIN_TEXT_LENGTH) {
       return res.status(400).json({ error: "No text to translate" });
     }
 
@@ -336,8 +338,8 @@ app.post('/api/summarize', async (req, res) => {
       if (req.body.url && req.body.url.trim()) { const extracted = await fetchTextFromUrl(req.body.url.trim()); content = extracted.content; sourceSections = extracted.sourceSections || []; } else { content = req.body.text || ''; sourceSections = buildParagraphSections(content, 'ย่อหน้า'); }
     }
 
-    if (!content || content.trim().length < 10) {
-      return res.status(400).json({ error: 'ไม่พบเนื้อหา กรุณาตรวจสอบ URL หรือข้อความที่ส่งมา' });
+    if (!content || content.trim().length < MIN_TEXT_LENGTH) {
+      return res.status(400).json({ error: 'กรุณาใส่ข้อความอย่างน้อย 3 ตัวอักษร หรือเลือกไฟล์/ลิงก์ที่มีเนื้อหา' });
     }
 
     const isJson = mode === 'quiz' || mode === 'flashcard';

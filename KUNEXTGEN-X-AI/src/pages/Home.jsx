@@ -12,6 +12,7 @@ import AIChatPanel from "../components/AIChatPanel";
 import { apiUrl } from "../lib/api-base";
 
 const API = apiUrl("/api/summarize");
+const MIN_TEXT_LENGTH = 3;
 
 export default function Home({
   currentUser,
@@ -54,7 +55,7 @@ export default function Home({
   const canSubmit =
     (tab === "upload" && file) ||
     (tab === "url" && url.trim().length > 5) ||
-    (tab === "text" && text.trim().length > 10);
+    (tab === "text" && text.trim().length >= MIN_TEXT_LENGTH);
 
   const reset = () => {
     setResult(null);
