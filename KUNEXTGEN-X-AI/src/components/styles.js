@@ -3020,22 +3020,25 @@ export const baseStyles = `
     }
 
     .trace-side-tab {
-      top: 142px;
-      right: 8px;
-      padding: 10px 8px;
-      border-radius: 14px 14px 0 0;
-      border-right: 1px solid rgba(74,92,106,0.18);
-      border-bottom: none;
-      transform: rotate(90deg);
-      transform-origin: top right;
+      position: fixed;
+      top: auto;
+      right: 14px;
+      bottom: 20px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(74,92,106,0.18);
+      transform: none;
+      transform-origin: center;
+      z-index: 20;
     }
 
     .trace-side-tab:hover {
-      transform: rotate(90deg) translateX(-2px);
+      transform: translateY(-1px);
     }
 
     .trace-side-tab.open {
-      right: 8px;
+      right: 14px;
+      bottom: calc(56vh + 26px);
     }
 
     .trace-side-tab-label {
@@ -3060,6 +3063,7 @@ export const baseStyles = `
       padding: 14px;
       border-radius: 20px;
       transform: translateY(18px);
+      z-index: 19;
     }
 
     .trace-drawer.open {
