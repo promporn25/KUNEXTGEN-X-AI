@@ -12,8 +12,21 @@ const TH_SUCCESS = "\u0e2a\u0e33\u0e40\u0e23\u0e47\u0e08";
 const TH_LEAD = "\u0e2a\u0e23\u0e38\u0e1b\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e2b\u0e32\u0e44\u0e1f\u0e25\u0e4c";
 const TH_TONE = "\u0e43\u0e2b\u0e49\u0e2a\u0e31\u0e49\u0e19 \u0e01\u0e23\u0e30\u0e0a\u0e31\u0e1a";
 
+function repairMojibake(text = "") {
+  const value = String(text || "");
+  if (!/(?:Ã.|â.|à¸|à¹|àº)/.test(value)) return value;
+
+  try {
+    const bytes = Uint8Array.from([...value].map((char) => char.charCodeAt(0) & 0xff));
+    const decoded = new TextDecoder("utf-8").decode(bytes);
+    return decoded.includes("\uFFFD") ? value : decoded;
+  } catch {
+    return value;
+  }
+}
+
 function cleanText(text = "") {
-  return String(text)
+  return repairMojibake(text)
     .replace(/\uFFFD+/g, "")
     .replace(/\*\*(.*?)\*\*/g, "$1")
     .replace(/\*/g, "")
@@ -275,7 +288,7 @@ export default function SummaryResult({
   };
 
   return (
-    <div className="result-container with-trace-drawer">
+    <div className={`result-container with-trace-drawer${traceOpen ? " trace-open" : ""}`}>
       <div className="result-header">
         <span className="result-title">{title}</span>
 

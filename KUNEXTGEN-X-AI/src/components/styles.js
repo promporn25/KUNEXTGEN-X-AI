@@ -1371,6 +1371,14 @@ export const baseStyles = `
     transform: translateX(0);
   }
 
+  @media (min-width: 901px) {
+    .with-trace-drawer.trace-open .result-header,
+    .with-trace-drawer.trace-open .result-body {
+      padding-right: 344px;
+      transition: padding-right 0.22s ease;
+    }
+  }
+
   .trace-drawer-head {
     display: flex;
     align-items: center;
