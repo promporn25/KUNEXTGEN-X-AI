@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { styles } from "../components/styles";
 import UploadTab from "../components/UploadTab";
 import ModeSelector from "../components/ModeSelector";
@@ -24,6 +24,7 @@ export default function Home({
   setLang: controlledSetLang,
 }) {
   const [tab, setTab] = useState("upload");
+  const [mobilePanel, setMobilePanel] = useState("input"); // "input" | "result"
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
@@ -134,7 +135,7 @@ export default function Home({
 
       if (mode === "quiz") {
         if (!data.data?.questions) {
-        setError("สร้างข้อสอบไม่ได้ กรุณาลองใหม่");
+          setError("สร้างข้อสอบไม่ได้ กรุณาลองใหม่");
         } else {
           setResultFileName(submittedFileName);
           setSourceSnapshot(data.sourceText || "");
@@ -152,7 +153,7 @@ export default function Home({
         }
       } else if (mode === "flashcard") {
         if (!data.data?.cards) {
-        setError("สร้าง Flashcard ไม่ได้ กรุณาลองใหม่");
+          setError("สร้าง Flashcard ไม่ได้ กรุณาลองใหม่");
         } else {
           setResultFileName(submittedFileName);
           setSourceSnapshot(data.sourceText || "");
@@ -187,6 +188,7 @@ export default function Home({
     }
 
     setLoading(false);
+    setMobilePanel("result");
   };
 
   const btnLabel = loading
@@ -356,7 +358,7 @@ export default function Home({
         </div>
       </nav>
 
-      <div className="layout">
+      <div className={`layout${mobilePanel === "result" ? " mobile-show-result" : ""}`}>
         <aside className="sidebar">
           <div className="sidebar-inner">
             <div className="tabs">
@@ -547,12 +549,26 @@ export default function Home({
           )}
         </main>
       </div>
+      {/* Mobile bottom nav */}
+      <div className="mobile-bottom-nav">
+        <button
+          type="button"
+          className={`mobile-nav-btn${mobilePanel === "input" ? " active" : ""}`}
+          onClick={() => setMobilePanel("input")}
+        >
+          📂 {isEnglish ? "Input" : "ป้อนข้อมูล"}
+        </button>
+        <button
+          type="button"
+          className={`mobile-nav-btn${mobilePanel === "result" ? " active" : ""}`}
+          onClick={() => setMobilePanel("result")}
+        >
+          {(loading || hasResult) && mobilePanel !== "result" && (
+            <span className="mobile-nav-btn-dot" />
+          )}
+          ✦ {isEnglish ? "Result" : "ผลลัพธ์"}
+        </button>
+      </div>
     </>
   );
 }
-
-
-
-
-
-
