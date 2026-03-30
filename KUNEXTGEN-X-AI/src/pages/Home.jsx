@@ -359,7 +359,7 @@ export default function Home({
         </div>
       </nav>
 
-      <div className="layout">
+      <div className={`layout${hasResult ? " has-result" : ""}`}>
         <aside className="sidebar">
           <div className="sidebar-inner">
             <div className="tabs">

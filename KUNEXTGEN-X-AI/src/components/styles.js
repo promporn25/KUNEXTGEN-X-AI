@@ -334,6 +334,10 @@ export const baseStyles = `
       linear-gradient(135deg, #061811 0%, #0a2219 42%, #103126 100%);
   }
 
+  .layout.has-result {
+    background: linear-gradient(135deg, #061811 0%, #0a2219 42%, #103126 100%);
+  }
+
   .sidebar {
     min-width: 0;
     min-height: 0;
@@ -346,6 +350,10 @@ export const baseStyles = `
     box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
+  }
+
+  .layout.has-result .sidebar {
+    background: rgba(11, 36, 26, 0.96);
   }
 
   .sidebar-inner {
@@ -377,6 +385,10 @@ export const baseStyles = `
   align-items: flex-start;
   padding: 34px 30px 52px;
   scrollbar-gutter: stable;
+}
+
+.layout.has-result .main-panel {
+  background: transparent;
 }
 
 .result-wrap {
@@ -3628,12 +3640,20 @@ body.dark .empty-greeting {
     background: linear-gradient(90deg, #06141B 0 380px, #f4f6f6 380px 100%);
   }
 
+  body:not(.dark) .layout.has-result {
+    background: linear-gradient(90deg, #06141B 0 380px, #f8f9f9 380px 100%);
+  }
+
   body:not(.dark) .sidebar {
     background:
       linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
       #06141B;
     border-right: 1px solid rgba(255,255,255,0.08);
     color: #CCD0CF;
+  }
+
+  body:not(.dark) .layout.has-result .sidebar {
+    background: #06141B;
   }
 
   body:not(.dark) .sidebar-footer {
@@ -3645,6 +3665,10 @@ body.dark .empty-greeting {
     background:
       radial-gradient(circle at top left, rgba(255,255,255,0.72), transparent 22%),
       linear-gradient(180deg, #f8f9f9 0%, #cfd4d3 100%);
+  }
+
+  body:not(.dark) .layout.has-result .main-panel {
+    background: linear-gradient(180deg, #f8f9f9 0%, #d5dad9 100%);
   }
 
   body:not(.dark) .tabs,
@@ -3863,12 +3887,20 @@ body.dark .empty-greeting {
     background: linear-gradient(90deg, #06141B 0 360px, #11212D 360px 100%);
   }
 
+  body.dark .layout.has-result {
+    background: linear-gradient(90deg, #06141B 0 360px, #11212D 360px 100%);
+  }
+
   body.dark .sidebar {
     background:
       linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
       #06141B;
     border-right: 1px solid rgba(255,255,255,0.06);
     color: #CCD0CF;
+  }
+
+  body.dark .layout.has-result .sidebar {
+    background: #06141B;
   }
 
   body.dark .sidebar-footer {
@@ -3880,6 +3912,10 @@ body.dark .empty-greeting {
     background:
       radial-gradient(circle at top left, rgba(155,168,171,0.16), transparent 24%),
       linear-gradient(180deg, #11212D 0%, #253745 100%);
+  }
+
+  body.dark .layout.has-result .main-panel {
+    background: linear-gradient(180deg, #11212D 0%, #253745 100%);
   }
 
   body.dark .tabs,
