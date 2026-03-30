@@ -163,6 +163,10 @@ export default function AIChatPanel({ contentText, mode }) {
   const theme = getChatTheme();
   const suggestions = useMemo(() => getSuggestions(mode), [mode]);
 
+  const compactContext = useMemo(() => {
+    return String(contentText || "").slice(0, 3500);
+  }, [contentText]);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -195,6 +199,7 @@ export default function AIChatPanel({ contentText, mode }) {
     try {
       const history = messages
         .filter((m) => !m.typing)
+        .slice(-6)
         .map((m) => ({ role: m.role, content: m.content }));
 
       const response = await fetch(apiUrl("/api/chat"), {
@@ -202,7 +207,7 @@ export default function AIChatPanel({ contentText, mode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: q,
-          context: contentText?.slice(0, 6000) || "",
+          context: compactContext,
           history,
         }),
       });

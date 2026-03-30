@@ -108,6 +108,21 @@ const openai = new OpenAI({
 app.post("/api/chat", async (req, res) => {
   try {
     const { message, context, history } = req.body;
+    const trimmedMessage = String(message || "").trim();
+    const compactContext = String(context || "").trim().slice(0, 3500);
+    const compactHistory = Array.isArray(history)
+      ? history
+          .slice(-6)
+          .map((item) => ({
+            role: item?.role === "assistant" ? "assistant" : "user",
+            content: String(item?.content || "").trim().slice(0, 500),
+          }))
+          .filter((item) => item.content)
+      : [];
+
+    if (!trimmedMessage) {
+      return res.status(400).json({ error: "missing message" });
+    }
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -115,14 +130,17 @@ app.post("/api/chat", async (req, res) => {
         {
           role: "system",
           content: `คุณเป็น AI ผู้ช่วยสอน
-อธิบายเนื้อหาให้เข้าใจง่าย กระชับ และตอบเป็นภาษาไทย
+อธิบายเนื้อหาให้เข้าใจง่าย กระชับ ตรงคำถาม และตอบเป็นภาษาไทย
+ถ้าคำตอบยาวเกินจำเป็นให้สรุปเป็นหัวข้อสั้น ๆ ก่อน
 
 เนื้อหา:
-${context?.slice(0, 6000)}`
+${compactContext}`
         },
-        ...(history || []),
-        { role: "user", content: message }
+        ...compactHistory,
+        { role: "user", content: trimmedMessage }
       ],
+      temperature: 0.3,
+      max_tokens: 450,
     });
 
     res.json({
