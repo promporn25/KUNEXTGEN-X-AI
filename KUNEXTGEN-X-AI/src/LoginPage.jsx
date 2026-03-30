@@ -171,11 +171,9 @@ export default function LoginPage({ onAuthSuccess }) {
 
   const completeAuthSuccess = (user) => {
     if (!user) return;
+    setError("");
+    setSuccess("");
     onAuthSuccess?.(user);
-    window.setTimeout(() => {
-      if (window.location.pathname === "/reset-password") return;
-      window.location.replace(window.location.origin);
-    }, 60);
   };
 
   const switchMode = (next) => {
