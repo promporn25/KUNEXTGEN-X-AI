@@ -4781,6 +4781,8 @@ export const baseStyles = `
       background:
         radial-gradient(circle at top left, rgba(255,255,255,0.04), transparent 24%),
         linear-gradient(180deg, #071a22 0%, #07161d 100%);
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .layout .sidebar,
@@ -4800,7 +4802,8 @@ export const baseStyles = `
 
     .sidebar-inner {
       gap: 12px;
-      padding: 12px 12px 108px;
+      padding: 12px 12px 24px;
+      overflow: visible;
     }
 
     .tabs {
@@ -4926,9 +4929,9 @@ export const baseStyles = `
     }
 
     .sidebar-footer {
-      position: absolute;
-      left: 0;
-      right: 0;
+      position: sticky;
+      left: auto;
+      right: auto;
       bottom: 0;
       z-index: 3;
       padding: 12px;
@@ -4954,7 +4957,80 @@ export const baseStyles = `
     .main-panel {
       display: flex !important;
       width: 100%;
-      padding: 12px 12px 28px;
+      padding: 16px 12px 40px;
+      overflow-y: auto;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.72), transparent 22%),
+        linear-gradient(180deg, #f8f9f9 0%, #cfd4d3 100%);
+    }
+
+    body.dark .main-panel {
+      background:
+        radial-gradient(circle at top left, rgba(155,168,171,0.16), transparent 24%),
+        linear-gradient(180deg, #11212D 0%, #253745 100%);
+    }
+
+    .empty-state {
+      display: flex !important;
+      width: 100%;
+      min-height: auto;
+      padding-top: 8px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      color: var(--text-2);
+    }
+
+    .empty-main {
+      width: 100%;
+      max-width: none;
+      padding: 18px 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(6,20,27,0.08);
+      box-shadow: 0 18px 40px rgba(6,20,27,0.08);
+    }
+
+    body.dark .empty-main {
+      background: rgba(18,33,45,0.92);
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+    }
+
+    .empty-title {
+      font-size: 28px;
+      line-height: 1.05;
+      margin-bottom: 10px;
+      max-width: none;
+    }
+
+    .empty-sub {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-3);
+      margin-bottom: 14px;
+    }
+
+    body.dark .empty-sub {
+      color: #CCD0CF;
+    }
+
+    .empty-steps {
+      gap: 10px;
+      max-width: none;
+    }
+
+    .empty-step {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(6,20,27,0.08);
+      box-shadow: none;
+      font-size: 13px;
+    }
+
+    body.dark .empty-step {
+      background: rgba(37,55,69,0.72);
+      border-color: rgba(255,255,255,0.08);
     }
 
     .stats-bar,
