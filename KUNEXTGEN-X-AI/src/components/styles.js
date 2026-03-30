@@ -4223,6 +4223,336 @@ export const baseStyles = `
       overflow: hidden !important;
     }
   }
+
+  @media (max-width: 640px) {
+    html,
+    body,
+    #root {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .topnav {
+      min-height: 56px;
+      padding: 8px 12px;
+      gap: 8px;
+    }
+
+    .topnav-left {
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .topnav-badge {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      font-size: 12px;
+    }
+
+    .topnav-title {
+      font-size: 15px;
+      gap: 2px;
+    }
+
+    .topnav-right {
+      gap: 6px;
+    }
+
+    .topnav-btn {
+      min-height: 38px;
+      height: 38px;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+
+    .topnav-user {
+      min-height: 44px;
+    }
+
+    .layout {
+      min-height: calc(100dvh - 56px);
+    }
+
+    .sidebar {
+      width: 100%;
+    }
+
+    .sidebar-inner {
+      gap: 12px;
+      padding: 12px 14px 92px;
+    }
+
+    .tabs {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      padding: 6px;
+      border-radius: 18px;
+    }
+
+    .tab-btn {
+      min-width: 0;
+      min-height: 44px;
+      height: auto;
+      padding: 10px 6px;
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .upload-zone,
+    .url-input,
+    .text-input-area,
+    .count-input,
+    .settings-input,
+    .settings-control {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .upload-zone {
+      min-height: 168px;
+      padding: 18px 14px;
+      border-radius: 20px;
+    }
+
+    .upload-icon {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .upload-zone h3 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .upload-subtitle {
+      font-size: 12px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .panel-title {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar .options-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .option-card {
+      min-height: 72px;
+      padding: 12px;
+      border-radius: 16px;
+      gap: 10px;
+    }
+
+    .option-icon {
+      font-size: 16px;
+    }
+
+    .option-label {
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .option-desc {
+      font-size: 11px;
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
+    .quiz-options {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      gap: 12px;
+    }
+
+    .difficulty-row {
+      gap: 6px;
+    }
+
+    .diff-btn {
+      min-height: 44px;
+      font-size: 13px;
+    }
+
+    .count-input,
+    .url-input {
+      min-height: 48px;
+      height: 48px;
+      font-size: 16px;
+      border-radius: 14px;
+    }
+
+    .text-input-area {
+      min-height: 136px;
+      padding: 14px;
+      font-size: 16px;
+      line-height: 1.65;
+      border-radius: 16px;
+    }
+
+    .sidebar-footer {
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .action-btn {
+      min-height: 48px;
+      height: 48px;
+      border-radius: 18px;
+      font-size: 15px;
+    }
+
+    .main-panel {
+      padding: 14px 14px 28px;
+      align-items: stretch;
+    }
+
+    .empty-state {
+      min-height: auto;
+      padding-top: 4px;
+      align-items: flex-start;
+    }
+
+    .empty-main {
+      max-width: 100%;
+    }
+
+    .empty-title {
+      max-width: none;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: -0.8px;
+      margin-bottom: 8px;
+    }
+
+    .empty-sub,
+    .empty-body {
+      max-width: none;
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 16px;
+      color: var(--text-2);
+    }
+
+    .empty-steps {
+      gap: 10px;
+      max-width: 100%;
+    }
+
+    .empty-step {
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .empty-step-num {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    .stats-bar,
+    .result-container,
+    .loader-card,
+    .flashcard-wrap,
+    .quiz-question,
+    .history-panel {
+      border-radius: 18px;
+    }
+
+    .loader-card.progress-loader-card,
+    .loader-card {
+      padding: 24px 18px;
+      margin-top: 0;
+    }
+
+    .progress-loader-inner,
+    .loader-card-inner {
+      min-height: 320px;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .topnav {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .topnav-title {
+      font-size: 14px;
+    }
+
+    .topnav-btn {
+      padding: 0 10px;
+      font-size: 11px;
+    }
+
+    .topnav-user {
+      border-radius: 16px !important;
+    }
+
+    .sidebar-inner,
+    .sidebar-footer,
+    .main-panel {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    .sidebar .options-grid {
+      gap: 8px;
+    }
+
+    .option-card {
+      min-height: 68px;
+      padding: 11px 10px;
+      gap: 8px;
+    }
+
+    .option-label {
+      font-size: 12px;
+    }
+
+    .option-desc {
+      font-size: 10px;
+    }
+
+    .upload-zone {
+      min-height: 156px;
+      padding: 16px 12px;
+    }
+
+    .empty-title {
+      font-size: 26px;
+    }
+
+    .empty-sub,
+    .empty-body {
+      font-size: 13px;
+    }
+
+    .empty-step {
+      font-size: 12px;
+      padding: 11px 12px;
+    }
+
+    .action-btn {
+      min-height: 46px;
+      height: 46px;
+      font-size: 14px;
+    }
+  }
 `;
 
 
