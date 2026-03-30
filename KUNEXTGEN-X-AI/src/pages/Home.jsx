@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { styles } from "../components/styles";
 import UploadTab from "../components/UploadTab";
 import ModeSelector from "../components/ModeSelector";
@@ -24,8 +24,6 @@ export default function Home({
   setLang: controlledSetLang,
 }) {
   const [tab, setTab] = useState("upload");
-  const [mobilePanel, setMobilePanel] = useState("input"); // "input" | "result"
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
@@ -67,14 +65,10 @@ export default function Home({
 
   const changeTab = (id) => {
     setTab(id);
-    setMobilePanel("input");
-    setMobileSidebarOpen(true);
     reset();
   };
 
   const goHome = () => {
-    setMobilePanel("input");
-    setMobileSidebarOpen(false);
     setLoading(false);
     setResult(null);
     setError("");
@@ -86,14 +80,10 @@ export default function Home({
   const loadDemo = (sample) => {
     setText(sample);
     setTab("text");
-    setMobilePanel("input");
-    setMobileSidebarOpen(true);
     reset();
   };
 
   const handleRestore = (item) => {
-    setMobilePanel("result");
-    setMobileSidebarOpen(false);
     setResultFileName(item.fileName || "");
     if (item.type === "text") {
       setResult({ type: "text", raw: item.result });
@@ -144,7 +134,7 @@ export default function Home({
 
       if (mode === "quiz") {
         if (!data.data?.questions) {
-          setError("สร้างข้อสอบไม่ได้ กรุณาลองใหม่");
+        setError("สร้างข้อสอบไม่ได้ กรุณาลองใหม่");
         } else {
           setResultFileName(submittedFileName);
           setSourceSnapshot(data.sourceText || "");
@@ -162,7 +152,7 @@ export default function Home({
         }
       } else if (mode === "flashcard") {
         if (!data.data?.cards) {
-          setError("สร้าง Flashcard ไม่ได้ กรุณาลองใหม่");
+        setError("สร้าง Flashcard ไม่ได้ กรุณาลองใหม่");
         } else {
           setResultFileName(submittedFileName);
           setSourceSnapshot(data.sourceText || "");
@@ -197,8 +187,6 @@ export default function Home({
     }
 
     setLoading(false);
-    setMobilePanel("result");
-    setMobileSidebarOpen(false);
   };
 
   const btnLabel = loading
@@ -252,15 +240,6 @@ export default function Home({
       <style>{styles(theme)}</style>
 
       <nav className="topnav">
-        <button
-          className="topnav-btn mobile-drawer-trigger"
-          type="button"
-          onClick={() => setMobileSidebarOpen((v) => !v)}
-          aria-label={isEnglish ? "Toggle input panel" : "เปิดแผงป้อนข้อมูล"}
-        >
-          {mobileSidebarOpen ? "✕" : "☰"}
-        </button>
-
         <button
           className="topnav-left"
           type="button"
@@ -377,25 +356,8 @@ export default function Home({
         </div>
       </nav>
 
-      <div
-        className={`layout${mobilePanel === "result" ? " mobile-show-result" : ""}${
-          mobileSidebarOpen ? " mobile-sidebar-open" : ""
-        }`}
-      >
+      <div className="layout">
         <aside className="sidebar">
-          <div className="mobile-drawer-head">
-            <div className="mobile-drawer-title">
-              {isEnglish ? "Input Panel" : "แผงป้อนข้อมูล"}
-            </div>
-            <button
-              type="button"
-              className="topnav-btn mobile-drawer-close"
-              onClick={() => setMobileSidebarOpen(false)}
-            >
-              ✕
-            </button>
-          </div>
-
           <div className="sidebar-inner">
             <div className="tabs">
               {[
@@ -585,32 +547,12 @@ export default function Home({
           )}
         </main>
       </div>
-      <button
-        type="button"
-        className={`mobile-drawer-backdrop${mobileSidebarOpen ? " active" : ""}`}
-        onClick={() => setMobileSidebarOpen(false)}
-        aria-label={isEnglish ? "Close input panel" : "ปิดแผงป้อนข้อมูล"}
-      />
-      {/* Mobile bottom nav */}
-      <div className="mobile-bottom-nav">
-        <button
-          type="button"
-          className={`mobile-nav-btn${mobilePanel === "input" ? " active" : ""}`}
-          onClick={() => setMobilePanel("input")}
-        >
-          📂 {isEnglish ? "Input" : "ป้อนข้อมูล"}
-        </button>
-        <button
-          type="button"
-          className={`mobile-nav-btn${mobilePanel === "result" ? " active" : ""}`}
-          onClick={() => setMobilePanel("result")}
-        >
-          {(loading || hasResult) && mobilePanel !== "result" && (
-            <span className="mobile-nav-btn-dot" />
-          )}
-          ✦ {isEnglish ? "Result" : "ผลลัพธ์"}
-        </button>
-      </div>
     </>
   );
 }
+
+
+
+
+
+
