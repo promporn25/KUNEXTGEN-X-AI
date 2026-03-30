@@ -52,11 +52,11 @@ export default function ModeSelector({
     const digitsOnly = event.target.value.replace(/\D/g, "");
 
     if (!digitsOnly) {
-      setQCount(3);
+      setQCount(1);
       return;
     }
 
-    const normalized = Math.min(20, Math.max(3, Number.parseInt(digitsOnly, 10)));
+    const normalized = Math.min(100, Math.max(1, Number.parseInt(digitsOnly, 10)));
     setQCount(normalized);
   };
 
@@ -114,8 +114,8 @@ export default function ModeSelector({
               type="text"
               inputMode="numeric"
               pattern="[0-9]*"
-              min={3}
-              max={20}
+              min={1}
+              max={100}
               value={qCount}
               onChange={handleCountChange}
             />
