@@ -884,16 +884,43 @@ export default function LoginPage({ onAuthSuccess }) {
           .login-page {
             padding: 14px;
             min-height: 100dvh;
+            display: block;
           }
 
           .login-card {
-            border-radius: 24px;
+            border-radius: 0;
             width: 100%;
+            background: transparent;
+            box-shadow: none;
+            border: none;
+            overflow: visible;
           }
 
           .login-left,
           .login-right {
             padding: 20px 16px;
+          }
+
+          .login-left {
+            border-radius: 28px;
+            padding: 18px 18px 82px;
+            min-height: 0;
+            justify-content: flex-start;
+            gap: 18px;
+            box-shadow:
+              0 24px 44px rgba(0,0,0,0.28),
+              inset 0 1px 0 rgba(255,255,255,0.05);
+          }
+
+          .login-right {
+            margin: -54px 10px 0;
+            border-radius: 24px;
+            background:
+              radial-gradient(circle at top right, rgba(255,255,255,0.7), transparent 28%),
+              linear-gradient(180deg, #f9fbfb 0%, #e2e8e8 100%);
+            box-shadow:
+              0 18px 42px rgba(6,20,27,0.16),
+              inset 0 1px 0 rgba(255,255,255,0.88);
           }
 
           .login-right-inner,
@@ -902,8 +929,67 @@ export default function LoginPage({ onAuthSuccess }) {
             max-width: none;
           }
 
+          .login-brand {
+            gap: 12px;
+          }
+
+          .login-brand-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            font-size: 18px;
+          }
+
           .login-brand-name {
             font-size: 18px;
+          }
+
+          .login-hero {
+            margin-top: 0;
+          }
+
+          .login-illus {
+            position: absolute;
+            top: 16px;
+            right: 14px;
+            width: 86px;
+            height: 86px;
+            margin: 0;
+            opacity: 0.82;
+          }
+
+          .login-illus .login-illus-ring:nth-child(2) {
+            inset: 10px;
+          }
+
+          .login-illus .login-illus-ring:nth-child(3) {
+            inset: 20px;
+          }
+
+          .login-illus-core {
+            width: 42px;
+            height: 42px;
+            font-size: 20px;
+          }
+
+          .login-tagline {
+            font-size: 42px;
+            line-height: 0.96;
+            max-width: 8ch;
+            margin-bottom: 12px;
+          }
+
+          .login-sub {
+            max-width: 26ch;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+          }
+
+          .login-chips {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
           }
 
           .login-form-heading {
@@ -911,12 +997,31 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-stats {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
+            margin-top: 0;
+            max-width: none;
+          }
+
+          .login-stat {
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.07);
+          }
+
+          .login-stat-val {
+            font-size: 22px;
+            margin-bottom: 4px;
+          }
+
+          .login-stat-lbl {
+            font-size: 11px;
           }
 
           .login-tab-switch {
             gap: 6px;
+            margin-bottom: 18px;
+            border-radius: 16px;
           }
 
           .login-switch-btn {
@@ -931,8 +1036,18 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-chip {
-            width: 100%;
+            width: auto;
             justify-content: center;
+            min-height: 44px;
+            padding: 10px 12px;
+            font-size: 12px;
+            text-align: center;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.06);
+          }
+
+          .login-chip:nth-child(n+5) {
+            display: none;
           }
         }
 
@@ -946,18 +1061,38 @@ export default function LoginPage({ onAuthSuccess }) {
             padding: 18px 14px;
           }
 
-          .login-illus,
-          .login-stats {
-            display: none;
+          .login-left {
+            padding: 16px 16px 72px;
+          }
+
+          .login-right {
+            margin: -46px 6px 0;
+            border-radius: 22px;
+          }
+
+          .login-illus {
+            width: 72px;
+            height: 72px;
+            top: 14px;
+            right: 10px;
           }
 
           .login-tagline {
-            font-size: 30px;
+            font-size: 34px;
+            max-width: 7ch;
           }
 
           .login-sub {
-            font-size: 14px;
-            line-height: 1.6;
+            font-size: 13px;
+            max-width: 23ch;
+          }
+
+          .login-chips {
+            grid-template-columns: 1fr;
+          }
+
+          .login-stats {
+            grid-template-columns: 1fr 1fr;
           }
 
           .login-tab-switch {
