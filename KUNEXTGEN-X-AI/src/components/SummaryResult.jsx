@@ -52,8 +52,12 @@ function renderLines(raw = "") {
   return String(raw)
     .split("\n")
     .map((line) => cleanText(line))
-    .filter((line) => line && !isDividerLine(line))
+    .filter((line) => line)
     .map((line, index) => {
+      if (isDividerLine(line)) {
+        return <hr key={`divider-${index}`} className="summary-divider" />;
+      }
+
       const plain = line.replace(/^#+\s*/, "").trim();
       const isStrongLine =
         /^#{1,6}\s*/.test(line) || /^\d+(\.\d+)*[:.)]?\s+/.test(line);
@@ -95,7 +99,12 @@ function parseSummarySections(raw = "", lang = "th") {
 
   lines.forEach((line) => {
     const trimmed = cleanText(line);
-    if (!trimmed || isDividerLine(trimmed)) return;
+    if (!trimmed) return;
+
+    if (isDividerLine(trimmed)) {
+      if (current) current.lines.push("---");
+      return;
+    }
 
     if (isHeading(line)) {
       if (current) sections.push(current);

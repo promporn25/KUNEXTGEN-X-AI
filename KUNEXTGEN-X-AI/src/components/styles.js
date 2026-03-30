@@ -1647,6 +1647,20 @@ body.dark .empty-greeting {
     margin-top: 14px;
   }
 
+  .summary-divider {
+    border: none;
+    height: 1px;
+    margin: 22px 0 18px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(74,92,106,0.16) 14%,
+      rgba(74,92,106,0.28) 50%,
+      rgba(74,92,106,0.16) 86%,
+      transparent 100%
+    );
+  }
+
   .result-body h2 {
       font-family: 'Sarabun', var(--font-body);
       font-size: 17px;

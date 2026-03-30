@@ -1,29 +1,81 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
-  collection,
   addDoc,
-  getDocs,
+  collection,
   deleteDoc,
   doc,
-  query,
-  orderBy,
+  getDocs,
   limit,
+  orderBy,
+  query,
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
 const LOCAL_KEY = "ku_ai_history";
 const MAX_ITEMS = 20;
+const HISTORY_EVENT = "ku-history-updated";
 
-async function migrateLocalHistoryToCloud(uid) {
-  if (!uid) return;
+function readLocalHistory() {
+  try {
+    const items = JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]");
+    return Array.isArray(items) ? items : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalHistory(items) {
+  localStorage.setItem(LOCAL_KEY, JSON.stringify(items.slice(0, MAX_ITEMS)));
+}
+
+function notifyHistoryUpdated(items) {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(HISTORY_EVENT, { detail: items }));
+}
+
+function getEntrySignature(item = {}) {
+  return [
+    item.fileName || "",
+    item.mode || "",
+    item.type || "",
+    item.preview || "",
+    item.dateLabel || "",
+  ].join("|");
+}
+
+function mergeHistoryItems(primary = [], secondary = []) {
+  const seen = new Set();
+  return [...primary, ...secondary]
+    .filter(Boolean)
+    .filter((item) => {
+      const signature = getEntrySignature(item);
+      if (seen.has(signature)) return false;
+      seen.add(signature);
+      return true;
+    })
+    .slice(0, MAX_ITEMS);
+}
+
+async function withTimeout(promise, timeoutMs = 7000) {
+  let timer;
+  return Promise.race([
+    promise.finally(() => clearTimeout(timer)),
+    new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error("history timeout")), timeoutMs);
+    }),
+  ]);
+}
+
+async function mirrorLocalHistoryToCloud(uid) {
+  if (!uid || !db) return;
+
+  const localItems = readLocalHistory();
+  if (!localItems.length) return;
 
   try {
-    const localItems = JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]");
-    if (!Array.isArray(localItems) || localItems.length === 0) return;
-
     await Promise.all(
-      localItems.slice(0, MAX_ITEMS).map((item) =>
+      localItems.map((item) =>
         addDoc(collection(db, "users", uid, "history"), {
           fileName: item.fileName || "ข้อความ",
           mode: item.mode || "summary",
@@ -33,22 +85,16 @@ async function migrateLocalHistoryToCloud(uid) {
           sourceText: item.sourceText || "",
           sourceSections: item.sourceSections || [],
           preview: item.preview || "",
-          dateLabel:
-            item.dateLabel ||
-            new Date().toLocaleDateString("th-TH", {
-              day: "numeric",
-              month: "short",
-              hour: "2-digit",
-              minute: "2-digit",
-            }),
+          dateLabel: item.dateLabel || "",
           createdAt: serverTimestamp(),
         })
       )
     );
 
     localStorage.removeItem(LOCAL_KEY);
-  } catch (e) {
-    console.warn("Local history migration failed", e);
+    notifyHistoryUpdated([]);
+  } catch (error) {
+    console.warn("Local history sync failed", error);
   }
 }
 
@@ -63,6 +109,7 @@ export async function saveHistory({
   sourceSections,
 }) {
   const entry = {
+    id: Date.now(),
     fileName: fileName || "ข้อความ",
     mode,
     type,
@@ -80,23 +127,20 @@ export async function saveHistory({
     }),
   };
 
-  if (uid) {
-    try {
-      await addDoc(collection(db, "users", uid, "history"), {
-        ...entry,
-        createdAt: serverTimestamp(),
-      });
-      return;
-    } catch (e) {
-      console.warn("Firestore save failed, falling back to localStorage", e);
-    }
-  }
+  const localNext = [entry, ...readLocalHistory()].slice(0, MAX_ITEMS);
+  writeLocalHistory(localNext);
+  notifyHistoryUpdated(localNext);
+
+  if (!uid || !db) return;
 
   try {
-    const prev = JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]");
-    const next = [{ id: Date.now(), ...entry }, ...prev].slice(0, MAX_ITEMS);
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(next));
-  } catch {}
+    await addDoc(collection(db, "users", uid, "history"), {
+      ...entry,
+      createdAt: serverTimestamp(),
+    });
+  } catch (error) {
+    console.warn("Firestore save failed", error);
+  }
 }
 
 const MODE_LABEL = {
@@ -108,57 +152,70 @@ const MODE_LABEL = {
 };
 
 export default function HistoryPanel({ uid, onRestore }) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(readLocalHistory());
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const load = useCallback(async () => {
-    setLoading(true);
+    const localItems = readLocalHistory();
+    setItems(localItems);
+    setLoading(Boolean(uid));
 
-    if (uid) {
-      try {
-        await migrateLocalHistoryToCloud(uid);
-        const q = query(
-          collection(db, "users", uid, "history"),
-          orderBy("createdAt", "desc"),
-          limit(MAX_ITEMS)
-        );
-        const snap = await getDocs(q);
-        const rows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        setItems(rows);
-        setLoading(false);
-        return;
-      } catch (e) {
-        console.warn("Firestore load failed", e);
-      }
+    if (!uid || !db) {
+      setLoading(false);
+      return;
     }
 
     try {
-      setItems(JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]"));
-    } catch {}
-    setLoading(false);
+      await mirrorLocalHistoryToCloud(uid);
+      const historyQuery = query(
+        collection(db, "users", uid, "history"),
+        orderBy("createdAt", "desc"),
+        limit(MAX_ITEMS)
+      );
+      const snap = await withTimeout(getDocs(historyQuery));
+      const cloudItems = snap.docs.map((item) => ({ id: item.id, ...item.data() }));
+      setItems(mergeHistoryItems(cloudItems, readLocalHistory()));
+    } catch (error) {
+      console.warn("Firestore load failed", error);
+      setItems(readLocalHistory());
+    } finally {
+      setLoading(false);
+    }
   }, [uid]);
 
   useEffect(() => {
     load();
   }, [load]);
 
+  useEffect(() => {
+    const handleHistoryUpdated = (event) => {
+      const nextItems = Array.isArray(event.detail) ? event.detail : readLocalHistory();
+      setItems(nextItems);
+    };
+
+    window.addEventListener(HISTORY_EVENT, handleHistoryUpdated);
+    return () => window.removeEventListener(HISTORY_EVENT, handleHistoryUpdated);
+  }, []);
+
   const clearAll = async () => {
-    if (uid) {
-      try {
-        const snap = await getDocs(collection(db, "users", uid, "history"));
-        await Promise.all(
-          snap.docs.map((d) => deleteDoc(doc(db, "users", uid, "history", d.id)))
-        );
-        setItems([]);
-        return;
-      } catch (e) {
-        console.warn("Firestore clear failed", e);
-      }
+    writeLocalHistory([]);
+    notifyHistoryUpdated([]);
+
+    if (!uid || !db) {
+      setItems([]);
+      return;
     }
 
-    localStorage.removeItem(LOCAL_KEY);
-    setItems([]);
+    try {
+      const snap = await getDocs(collection(db, "users", uid, "history"));
+      await Promise.all(
+        snap.docs.map((item) => deleteDoc(doc(db, "users", uid, "history", item.id)))
+      );
+      setItems([]);
+    } catch (error) {
+      console.warn("Firestore clear failed", error);
+    }
   };
 
   if (items.length === 0 && !loading) return null;
@@ -168,7 +225,7 @@ export default function HistoryPanel({ uid, onRestore }) {
       <button
         className="history-toggle"
         onClick={() => {
-          setOpen((o) => !o);
+          setOpen((prev) => !prev);
           if (!open) load();
         }}
       >
@@ -211,8 +268,8 @@ export default function HistoryPanel({ uid, onRestore }) {
                     <span className="history-mode">{MODE_LABEL[item.mode] || item.mode}</span>
                     <span className="history-date">{item.dateLabel || item.date}</span>
                   </div>
-                  <div className="history-file">📄 {item.fileName}</div>
-                  <div className="history-preview">{item.preview}</div>
+                  <div className="history-file">📄 {item.fileName || "ข้อความ"}</div>
+                  <div className="history-preview">{item.preview || "ไม่มีตัวอย่างผลลัพธ์"}</div>
                 </div>
               ))}
             </div>
