@@ -2880,6 +2880,149 @@ export const baseStyles = `
       min-height: 46px;
       font-size: 14px;
     }
+
+    .stats-bar {
+      padding: 14px 12px;
+      border-radius: 20px;
+    }
+
+    .stats-header {
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .stats-title {
+      font-size: 14px;
+    }
+
+    .stats-file {
+      width: 100%;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stat-card {
+      padding: 10px 8px;
+      border-radius: 14px;
+    }
+
+    .stat-icon {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 16px;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .result-container {
+      border-radius: 22px;
+      overflow: visible;
+    }
+
+    .result-header {
+      padding: 14px 12px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+      border-radius: 22px 22px 0 0;
+    }
+
+    .result-title {
+      font-size: 17px;
+    }
+
+    .result-toolbar {
+      width: 100%;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+
+    .summary-lang-toggle {
+      flex-shrink: 0;
+    }
+
+    .result-badge {
+      display: none;
+    }
+
+    .export-btn,
+    .history-toggle {
+      height: 32px;
+      padding: 0 12px;
+      font-size: 11px;
+    }
+
+    .result-body {
+      padding: 20px 14px 24px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .result-body h2,
+    .result-body h3,
+    .result-body .summary-strong,
+    .result-body li,
+    .result-body p {
+      font-size: 15px;
+    }
+
+    .trace-side-tab {
+      top: 142px;
+      right: 8px;
+      padding: 10px 8px;
+      border-radius: 14px 14px 0 0;
+      border-right: 1px solid rgba(74,92,106,0.18);
+      border-bottom: none;
+      transform: rotate(90deg);
+      transform-origin: top right;
+    }
+
+    .trace-side-tab:hover {
+      transform: rotate(90deg) translateX(-2px);
+    }
+
+    .trace-side-tab.open {
+      right: 8px;
+    }
+
+    .trace-side-tab-label {
+      writing-mode: initial;
+      text-orientation: initial;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+    }
+
+    .trace-side-tab-arrow {
+      font-size: 12px;
+    }
+
+    .trace-drawer {
+      position: fixed;
+      top: auto;
+      right: 12px;
+      left: 12px;
+      bottom: 12px;
+      width: auto;
+      max-height: 56vh;
+      padding: 14px;
+      border-radius: 20px;
+      transform: translateY(18px);
+    }
+
+    .trace-drawer.open {
+      transform: translateY(0);
+    }
   }
 .loader-card.progress-loader-card {
   width: 100%;
