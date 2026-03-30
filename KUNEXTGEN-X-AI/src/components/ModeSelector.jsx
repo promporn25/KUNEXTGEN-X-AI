@@ -48,6 +48,18 @@ export default function ModeSelector({
 }) {
   const copy = MODE_COPY[lang] || MODE_COPY.th;
 
+  const handleCountChange = (event) => {
+    const digitsOnly = event.target.value.replace(/\D/g, "");
+
+    if (!digitsOnly) {
+      setQCount(3);
+      return;
+    }
+
+    const normalized = Math.min(20, Math.max(3, Number.parseInt(digitsOnly, 10)));
+    setQCount(normalized);
+  };
+
   return (
     <div className="options-panel">
       <div className="panel-title">{copy.title}</div>
@@ -99,11 +111,13 @@ export default function ModeSelector({
             </label>
             <input
               className="count-input"
-              type="number"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
               min={3}
               max={20}
               value={qCount}
-              onChange={(e) => setQCount(Number(e.target.value))}
+              onChange={handleCountChange}
             />
           </div>
         </div>
