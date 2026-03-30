@@ -3705,6 +3705,13 @@ export const baseStyles = `
     grid-template-columns: repeat(4, minmax(150px, 1fr));
   }
 
+  @media (max-width: 640px) {
+    body:not(.dark) .stats-grid,
+    body.dark .stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
   body:not(.dark) .stat-card {
     background: rgba(255,255,255,0.04);
     border-color: rgba(255,255,255,0.08);
