@@ -3,12 +3,11 @@ import {
   finishGoogleRedirectLogin,
   loginWithEmail,
   loginWithGoogle,
+  registerWithEmail,
 } from "./firebase";
 import {
   getAuth,
   sendPasswordResetEmail,
-  createUserWithEmailAndPassword,
-  updateProfile,
 } from "firebase/auth";
 
 /* ─── Animated particle canvas ─── */
@@ -202,13 +201,7 @@ export default function LoginPage({ onAuthSuccess }) {
         const credential = await loginWithEmail({ email, password });
         onAuthSuccess?.(credential.user);
       } else if (mode === "register") {
-        const auth = getAuth();
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-
-        if (name.trim()) {
-          await updateProfile(cred.user, { displayName: name.trim() });
-        }
-
+        const cred = await registerWithEmail({ name, email, password });
         onAuthSuccess?.(cred.user);
       } else {
         const auth = getAuth();
@@ -587,12 +580,14 @@ export default function LoginPage({ onAuthSuccess }) {
           width: 100%;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 8px;
-          padding: 6px;
+          gap: 10px;
+          padding: 5px;
           border-radius: 18px;
-          background: rgba(6,20,27,0.06);
+          background: linear-gradient(180deg, rgba(255,255,255,0.56), rgba(255,255,255,0.34));
           border: 1px solid rgba(6,20,27,0.08);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.44);
+          box-shadow:
+            0 14px 28px rgba(6,20,27,0.08),
+            inset 0 1px 0 rgba(255,255,255,0.6);
           margin-bottom: 26px;
         }
 
@@ -601,12 +596,17 @@ export default function LoginPage({ onAuthSuccess }) {
           outline: 0;
           background: transparent;
           color: #4A5C6A;
-          padding: 12px 14px;
+          min-height: 52px;
+          padding: 0 18px;
           border-radius: 14px;
           font-weight: 700;
           font-size: 14px;
           cursor: pointer;
           transition: all 0.22s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
         }
 
         .login-switch-btn:hover {

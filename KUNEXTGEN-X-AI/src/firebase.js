@@ -2,11 +2,13 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import {
+  browserLocalPersistence,
   createUserWithEmailAndPassword,
   getAuth,
   getRedirectResult,
   GoogleAuthProvider,
   onAuthStateChanged,
+  setPersistence,
   signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
@@ -39,8 +41,21 @@ export const auth = app ? getAuth(app) : null;
 export const db = app ? getFirestore(app) : null;
 export const analytics = app ? getAnalytics(app) : null;
 
+let persistencePromise = null;
+
 const provider = auth ? new GoogleAuthProvider() : null;
 if (provider) provider.setCustomParameters({ prompt: "select_account" });
+
+function ensurePersistence() {
+  if (!auth) return Promise.resolve();
+  if (!persistencePromise) {
+    persistencePromise = setPersistence(auth, browserLocalPersistence).catch((error) => {
+      persistencePromise = null;
+      throw error;
+    });
+  }
+  return persistencePromise;
+}
 
 function prefersRedirectAuth() {
   if (typeof window === "undefined") return false;
@@ -61,6 +76,8 @@ export async function loginWithGoogle() {
     throw new Error("ยังไม่ได้ตั้งค่า Firebase");
   }
 
+  await ensurePersistence();
+
   if (prefersRedirectAuth()) {
     await signInWithRedirect(auth, provider);
     return null;
@@ -71,20 +88,27 @@ export async function loginWithGoogle() {
 
 export async function finishGoogleRedirectLogin() {
   if (!auth) return null;
+
   try {
-    return await getRedirectResult(auth);
-  } catch {
+    await ensurePersistence();
+    const credential = await getRedirectResult(auth);
+    if (credential?.user) return credential;
+    if (auth.currentUser) return { user: auth.currentUser };
     return null;
+  } catch {
+    return auth.currentUser ? { user: auth.currentUser } : null;
   }
 }
 
 export async function loginWithEmail({ email, password }) {
   if (!auth) throw new Error("ยังไม่ได้ตั้งค่า Firebase");
+  await ensurePersistence();
   return signInWithEmailAndPassword(auth, email, password);
 }
 
 export async function registerWithEmail({ name, email, password }) {
   if (!auth) throw new Error("ยังไม่ได้ตั้งค่า Firebase");
+  await ensurePersistence();
   const credential = await createUserWithEmailAndPassword(auth, email, password);
   if (name?.trim()) {
     await updateProfile(credential.user, { displayName: name.trim() });
