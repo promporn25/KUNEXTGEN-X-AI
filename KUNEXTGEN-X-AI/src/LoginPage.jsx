@@ -978,6 +978,8 @@ export default function LoginPage({ onAuthSuccess }) {
 
           .login-hero {
             margin-top: 0;
+            min-height: 360px;
+            padding-right: 150px;
           }
 
           .login-illus {
@@ -1019,9 +1021,13 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-chips {
+            position: absolute;
+            top: 132px;
+            right: 2px;
+            width: 132px;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            grid-template-columns: 1fr;
+            gap: 8px;
           }
 
           .login-form-heading {
@@ -1071,14 +1077,14 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-chip {
-            width: auto;
+            width: 100%;
             justify-content: center;
-            min-height: 44px;
-            padding: 10px 12px;
-            font-size: 12px;
+            min-height: 42px;
+            padding: 8px 10px;
+            font-size: 11px;
             text-align: center;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.06);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.05);
           }
 
           .login-chip:nth-child(n+5) {
@@ -1120,10 +1126,18 @@ export default function LoginPage({ onAuthSuccess }) {
           .login-sub {
             font-size: 13px;
             max-width: 23ch;
+            margin-bottom: 10px;
+          }
+
+          .login-hero {
+            min-height: 320px;
+            padding-right: 132px;
           }
 
           .login-chips {
-            grid-template-columns: 1fr;
+            top: 118px;
+            right: 0;
+            width: 118px;
           }
 
           .login-stats {
