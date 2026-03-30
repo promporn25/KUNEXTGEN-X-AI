@@ -4120,6 +4120,46 @@ export const baseStyles = `
     color: #253745;
     border: 1px solid rgba(6,20,27,0.12);
   }
+
+  @media (max-width: 640px) and (orientation: portrait) {
+    .main-panel,
+    .main-panel > *,
+    .result-wrap,
+    .result-container,
+    .stats-bar,
+    .stats-header,
+    .stats-heading-block,
+    .stats-grid,
+    .stat-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box;
+    }
+
+    body:not(.dark) .stats-grid,
+    body.dark .stats-grid {
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+    }
+
+    body:not(.dark) .stats-file,
+    body.dark .stats-file,
+    body:not(.dark) .stat-label,
+    body.dark .stat-label,
+    body:not(.dark) .stat-value,
+    body.dark .stat-value {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    body:not(.dark) .stats-bar,
+    body.dark .stats-bar,
+    body:not(.dark) .result-container,
+    body.dark .result-container {
+      overflow: hidden !important;
+    }
+  }
 `;
 
 
