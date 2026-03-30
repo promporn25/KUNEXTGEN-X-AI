@@ -5154,12 +5154,7 @@ export const baseStyles = `
     }
 
     .mobile-drawer-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 12px 12px 0;
-      flex-shrink: 0;
+      display: none !important;
     }
 
     .mobile-drawer-title {
@@ -5196,9 +5191,9 @@ export const baseStyles = `
     }
 
     .topnav {
-      height: 50px;
-      min-height: 50px;
-      padding: 0 10px;
+      height: 56px;
+      min-height: 56px;
+      padding: 0 12px;
       gap: 6px;
     }
 
@@ -5235,17 +5230,20 @@ export const baseStyles = `
     }
 
     .layout {
-      top: 50px !important;
-      height: calc(100dvh - 50px) !important;
-      background: #07161d;
+      top: 56px !important;
+      min-height: calc(100dvh - 56px) !important;
+      height: auto !important;
+      background: transparent !important;
+      overflow: visible !important;
     }
 
     .sidebar {
       position: fixed;
-      top: 50px;
+      top: 56px;
       left: 0;
       bottom: 0;
-      width: min(86vw, 360px);
+      width: 100%;
+      max-width: 100%;
       z-index: 220;
       transform: translateX(-104%);
       transition: transform 0.24s ease, box-shadow 0.24s ease;
@@ -5253,8 +5251,7 @@ export const baseStyles = `
       background:
         radial-gradient(circle at top left, rgba(255,255,255,0.04), transparent 24%),
         linear-gradient(180deg, #071a22 0%, #07161d 100%);
-      overflow-y: auto;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
     .layout .sidebar,
@@ -5274,13 +5271,14 @@ export const baseStyles = `
 
     .sidebar-inner {
       gap: 12px;
-      padding: 12px 12px 24px;
-      overflow: visible;
+      padding: 14px 12px 104px;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      overscroll-behavior: contain;
     }
 
     .tabs {
-      position: sticky;
-      top: 0;
+      position: static;
       z-index: 4;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       padding: 5px;
@@ -5323,6 +5321,8 @@ export const baseStyles = `
     .upload-file-actions {
       width: 100%;
       gap: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
 
     .upload-mini-btn {
@@ -5429,17 +5429,14 @@ export const baseStyles = `
     .main-panel {
       display: flex !important;
       width: 100%;
-      padding: 16px 12px 40px;
+      min-height: calc(100dvh - 56px);
+      padding: 16px 14px 32px;
       overflow-y: auto;
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.72), transparent 22%),
-        linear-gradient(180deg, #f8f9f9 0%, #cfd4d3 100%);
+      background: transparent;
     }
 
     body.dark .main-panel {
-      background:
-        radial-gradient(circle at top left, rgba(155,168,171,0.16), transparent 24%),
-        linear-gradient(180deg, #11212D 0%, #253745 100%);
+      background: transparent;
     }
 
     .empty-state {
