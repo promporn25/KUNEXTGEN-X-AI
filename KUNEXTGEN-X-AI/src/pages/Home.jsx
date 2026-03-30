@@ -463,11 +463,14 @@ export default function Home({
           {!hasResult && !loading && (
             <div className="empty-state">
               <div className="empty-main">
+                <div className="empty-greeting" aria-hidden="true">
+                  ✦
+                </div>
                 <h2 className="empty-title">
                   {isEnglish ? "Ready to Summarize" : "พร้อมสรุปเนื้อหา"}
                 </h2>
 
-                <p className="empty-sub">
+                <p className="empty-body">
                   {isEnglish ? (
                     <>
                       Upload a file or paste text on the left

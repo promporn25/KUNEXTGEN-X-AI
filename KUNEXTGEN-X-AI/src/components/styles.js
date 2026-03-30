@@ -1084,27 +1084,42 @@ export const baseStyles = `
     display: none;
   }
 
-  .empty-greeting {
-    width: 84px;
-    height: 84px;
-    display: grid;
-    place-items: center;
+.empty-greeting {
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
     margin-bottom: 20px;
     font-size: 52px;
-    color: var(--text);
-    background: transparent;
-    letter-spacing: 0;
-    animation: starFloat 4.8s ease-in-out infinite;
-    transform-origin: center;
-  }
+  color: var(--text);
+  background: transparent;
+  letter-spacing: 0;
+  animation: starFloat 4.8s ease-in-out infinite;
+  transform-origin: center;
+  position: relative;
+}
 
-  .empty-greeting::before {
-    display: none;
-  }
+.empty-greeting::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+  animation: starPulse 3.4s ease-in-out infinite;
+}
 
-  body.dark .empty-greeting {
-    color: #f3c969;
-    text-shadow: 0 0 18px rgba(243, 201, 105, 0.18);
+.empty-greeting::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.04);
+  animation: starPulse 3.4s ease-in-out infinite reverse;
+}
+
+body.dark .empty-greeting {
+  color: #f3c969;
+  text-shadow: 0 0 18px rgba(243, 201, 105, 0.18);
   }
 
   @keyframes starFloat {
@@ -1120,11 +1135,22 @@ export const baseStyles = `
       transform: translate3d(0, -10px, 0) rotate(0deg) scale(1.08);
       opacity: 0.96;
     }
-    75% {
-      transform: translate3d(-4px, -4px, 0) rotate(-8deg) scale(1.03);
-      opacity: 1;
-    }
+  75% {
+    transform: translate3d(-4px, -4px, 0) rotate(-8deg) scale(1.03);
+    opacity: 1;
   }
+}
+
+@keyframes starPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.42;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.82;
+  }
+}
 
   .empty-title {
     font-family: var(--font-display);

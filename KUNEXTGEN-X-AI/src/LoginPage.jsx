@@ -589,10 +589,10 @@ export default function LoginPage({ onAuthSuccess }) {
           width: 100%;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 10px;
-          padding: 5px;
-          border-radius: 18px;
-          background: linear-gradient(180deg, rgba(255,255,255,0.56), rgba(255,255,255,0.34));
+          gap: 8px;
+          padding: 6px;
+          border-radius: 20px;
+          background: linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,255,255,0.40));
           border: 1px solid rgba(6,20,27,0.08);
           box-shadow:
             0 14px 28px rgba(6,20,27,0.08),
@@ -605,9 +605,9 @@ export default function LoginPage({ onAuthSuccess }) {
           outline: 0;
           background: transparent;
           color: #4A5C6A;
-          min-height: 52px;
+          min-height: 54px;
           padding: 0 18px;
-          border-radius: 14px;
+          border-radius: 16px;
           font-weight: 700;
           font-size: 14px;
           cursor: pointer;
@@ -629,6 +629,7 @@ export default function LoginPage({ onAuthSuccess }) {
           box-shadow:
             0 10px 24px rgba(255,255,255,0.12),
             inset 0 1px 0 rgba(255,255,255,0.6);
+          transform: translateY(-1px);
         }
 
         .login-form-heading {
@@ -1050,14 +1051,17 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-tab-switch {
-            gap: 6px;
+            gap: 8px;
             margin-bottom: 18px;
-            border-radius: 16px;
+            border-radius: 18px;
+            padding: 6px;
           }
 
           .login-switch-btn {
             font-size: 13px;
-            padding: 11px 10px;
+            min-height: 50px;
+            padding: 0 12px;
+            border-radius: 14px;
           }
 
           .field-input,
@@ -1129,6 +1133,8 @@ export default function LoginPage({ onAuthSuccess }) {
           .login-tab-switch {
             grid-template-columns: 1fr 1fr;
             gap: 8px;
+            padding: 5px;
+            border-radius: 18px;
           }
         }
       `}</style>
