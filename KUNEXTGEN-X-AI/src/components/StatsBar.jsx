@@ -53,16 +53,20 @@ export default function StatsBar({ inputText, resultText, fileName, mode, lang =
   return (
     <div className="stats-bar">
       <div className="stats-header">
-        <span className="stats-title">{isEnglish ? "Analysis Result" : TH_ANALYSIS}</span>
-        {fileName && <span className="stats-file">{fileName}</span>}
+        <div className="stats-heading-block">
+          <span className="stats-title">{isEnglish ? "Analysis Result" : TH_ANALYSIS}</span>
+          {fileName && <span className="stats-file">{fileName}</span>}
+        </div>
       </div>
 
       <div className="stats-grid">
         {stats.map((s, i) => (
           <div key={i} className="stat-card">
-            <div className="stat-icon">{s.icon}</div>
+            <div className="stat-topline">
+              <div className="stat-icon">{s.icon}</div>
+              <div className="stat-label">{s.label}</div>
+            </div>
             <div className="stat-value">{s.value}</div>
-            <div className="stat-label">{s.label}</div>
           </div>
         ))}
       </div>
