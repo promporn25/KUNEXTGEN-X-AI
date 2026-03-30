@@ -273,6 +273,24 @@ export const baseStyles = `
     align-items: center;
     gap: 8px;
     flex-shrink: 0;
+    min-width: 0;
+  }
+
+  .topnav-user {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .topnav-user-meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .topnav-user-name,
+  .topnav-user-status {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .topnav-btn {
@@ -2698,6 +2716,26 @@ export const baseStyles = `
 
     .topnav {
       position: sticky;
+      height: auto;
+      min-height: 60px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+
+    .topnav-left,
+    .topnav-right {
+      width: 100%;
+    }
+
+    .topnav-right {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .topnav-user {
+      margin-left: auto;
     }
 
     .layout {
@@ -2740,6 +2778,50 @@ export const baseStyles = `
       display: none;
     }
 
+    .topnav {
+      gap: 10px;
+    }
+
+    .topnav-title {
+      font-size: 16px;
+    }
+
+    .topnav-right {
+      gap: 6px;
+      justify-content: stretch;
+    }
+
+    .topnav-btn {
+      height: 36px;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+
+    .topnav-user {
+      width: 100%;
+      justify-content: space-between;
+      padding: 8px 10px !important;
+      border-radius: 18px !important;
+    }
+
+    .topnav-user-avatar {
+      width: 30px !important;
+      height: 30px !important;
+    }
+
+    .topnav-user-name {
+      font-size: 11px !important;
+    }
+
+    .topnav-user-status {
+      font-size: 10px !important;
+    }
+
+    .topnav-logout {
+      margin-left: auto;
+      height: 32px !important;
+    }
+
     .main-panel,
     .sidebar-inner,
     .sidebar-footer {
@@ -2758,11 +2840,14 @@ export const baseStyles = `
     .tabs {
       gap: 4px;
       padding: 4px;
+      flex-wrap: wrap;
     }
 
     .tab-btn {
       height: 38px;
       font-size: 12px;
+      min-width: calc(50% - 3px);
+      flex: 1 1 calc(50% - 3px);
     }
 
     .upload-zone {

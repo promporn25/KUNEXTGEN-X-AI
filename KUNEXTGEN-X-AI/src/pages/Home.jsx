@@ -273,6 +273,7 @@ export default function Home({
           </button>
 
           <div
+            className="topnav-user"
             style={{
               display: "flex",
               alignItems: "center",
@@ -294,6 +295,7 @@ export default function Home({
             }}
           >
             <div
+              className="topnav-user-avatar"
               style={{
                 width: 32,
                 height: 32,
@@ -310,6 +312,7 @@ export default function Home({
             </div>
 
             <div
+              className="topnav-user-meta"
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -318,6 +321,7 @@ export default function Home({
               }}
             >
               <strong
+                className="topnav-user-name"
                 style={{
                   fontSize: 12,
                   color: theme === "dark" ? "#F3F6F6" : "#06141B",
@@ -325,13 +329,13 @@ export default function Home({
               >
                 {userLabel}
               </strong>
-              <span style={{ fontSize: 11, color: theme === "dark" ? "#9BA8AB" : "#4A5C6A" }}>
+              <span className="topnav-user-status" style={{ fontSize: 11, color: theme === "dark" ? "#9BA8AB" : "#4A5C6A" }}>
                 {firebaseReady ? "Firebase \u2713" : ""}
               </span>
             </div>
 
             <button
-              className="topnav-btn"
+              className="topnav-btn topnav-logout"
               onClick={onLogout}
               type="button"
               style={{ height: 30, padding: "0 12px" }}

@@ -179,7 +179,8 @@ export default function ResetPasswordPage() {
             radial-gradient(circle at 15% 12%, rgba(255,255,255,0.55), transparent 20%),
             radial-gradient(circle at 80% 18%, rgba(204,208,207,0.42), transparent 24%),
             linear-gradient(180deg, #CCD0CF 0%, #9BA8AB 44%, #11212D 100%);
-          overflow: hidden;
+          overflow-x: hidden;
+          overflow-y: auto;
         }
         @keyframes cardIn   { from{opacity:0;transform:translateY(24px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
         @keyframes fadeUp   { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
@@ -197,8 +198,11 @@ export default function ResetPasswordPage() {
 
       <div style={{
         position: "relative", zIndex: 2,
-        width: "100vw", height: "100vh",
+        width: "100%",
+        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "24px 14px",
         background: "radial-gradient(circle at 78% 12%, rgba(255,255,255,0.46), transparent 22%), linear-gradient(180deg, #F6F8F8 0%, #CCD0CF 100%)",
       }}>
 
@@ -215,7 +219,7 @@ export default function ResetPasswordPage() {
           <div style={{
             width: "min(400px,92vw)",
             ...cardStyle,
-            borderRadius: 20, padding: "40px 32px", textAlign: "center",
+            borderRadius: 20, padding: "32px 22px", textAlign: "center",
             animation: "cardIn 0.4s cubic-bezier(0.22,1,0.36,1) both",
           }}>
             <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
@@ -237,7 +241,7 @@ export default function ResetPasswordPage() {
           <div style={{
             width: "min(420px,92vw)",
             ...cardStyle,
-            borderRadius: 24, padding: "40px 36px",
+            borderRadius: 24, padding: "32px 22px",
             position: "relative", overflow: "hidden",
             animation: "cardIn 0.5s cubic-bezier(0.22,1,0.36,1) both",
           }}>
@@ -346,7 +350,7 @@ export default function ResetPasswordPage() {
           <div style={{
             width: "min(380px,92vw)",
             ...cardStyle,
-            borderRadius: 24, padding: "48px 36px", textAlign: "center",
+            borderRadius: 24, padding: "36px 22px", textAlign: "center",
             animation: "cardIn 0.5s cubic-bezier(0.22,1,0.36,1) both",
           }}>
             <div style={{ fontSize: 56, marginBottom: 20, animation: "popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both" }}>🎉</div>

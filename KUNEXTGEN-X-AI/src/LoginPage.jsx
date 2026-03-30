@@ -288,6 +288,7 @@ export default function LoginPage({ onAuthSuccess }) {
 
         .login-page {
           min-height: 100vh;
+          min-height: 100dvh;
           position: relative;
           overflow: hidden;
           display: grid;
@@ -881,16 +882,24 @@ export default function LoginPage({ onAuthSuccess }) {
 
         @media (max-width: 640px) {
           .login-page {
-            padding: 16px;
+            padding: 14px;
+            min-height: 100dvh;
           }
 
           .login-card {
             border-radius: 24px;
+            width: 100%;
           }
 
           .login-left,
           .login-right {
-            padding: 22px 18px;
+            padding: 20px 16px;
+          }
+
+          .login-right-inner,
+          .login-hero,
+          .login-stats {
+            max-width: none;
           }
 
           .login-brand-name {
@@ -902,7 +911,8 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-stats {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
+            gap: 10px;
           }
 
           .login-tab-switch {
@@ -918,6 +928,40 @@ export default function LoginPage({ onAuthSuccess }) {
           .submit-btn,
           .google-btn {
             height: 54px;
+          }
+
+          .login-chip {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 420px) {
+          .login-page {
+            padding: 10px;
+          }
+
+          .login-left,
+          .login-right {
+            padding: 18px 14px;
+          }
+
+          .login-illus,
+          .login-stats {
+            display: none;
+          }
+
+          .login-tagline {
+            font-size: 30px;
+          }
+
+          .login-sub {
+            font-size: 14px;
+            line-height: 1.6;
+          }
+
+          .login-tab-switch {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
