@@ -359,75 +359,98 @@ export default function Home({
       <div className="layout">
         <aside className="sidebar">
           <div className="sidebar-inner">
+            <section className="flow-section">
+              <div className="flow-title">{isEnglish ? "1. Choose input type" : "1. เลือกประเภทข้อมูล"}</div>
+              <div className="tabs">
+                {[
+                  { id: "upload", icon: "\uD83D\uDCC1", label: isEnglish ? "Files" : "\u0e44\u0e1f\u0e25\u0e4c" },
+                  { id: "url", icon: "\uD83D\uDD17", label: isEnglish ? "Link" : "\u0e25\u0e34\u0e07\u0e01\u0e4c" },
+                  { id: "text", icon: "\u270E", label: isEnglish ? "Text" : "\u0e02\u0e49\u0e2d\u0e04\u0e27\u0e32\u0e21" },
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    className={`tab-btn${tab === item.id ? " active" : ""}`}
+                    onClick={() => changeTab(item.id)}
+                    type="button"
+                  >
+                    {item.icon} {item.label}
+                  </button>
+                ))}
+              </div>
+            </section>
 
-            <div className="tabs">
-              {[
-                { id: "upload", icon: "\uD83D\uDCC1", label: isEnglish ? "Files" : "\u0e44\u0e1f\u0e25\u0e4c" },
-                { id: "url", icon: "\uD83D\uDD17", label: isEnglish ? "Link" : "\u0e25\u0e34\u0e07\u0e01\u0e4c" },
-                { id: "text", icon: "\u270E", label: isEnglish ? "Text" : "\u0e02\u0e49\u0e2d\u0e04\u0e27\u0e32\u0e21" },
-              ].map((item) => (
-                <button
-                  key={item.id}
-                  className={`tab-btn${tab === item.id ? " active" : ""}`}
-                  onClick={() => changeTab(item.id)}
-                  type="button"
-                >
-                  {item.icon} {item.label}
-                </button>
-              ))}
-            </div>
+            <section className="flow-section">
+              <div className="flow-title">
+                {tab === "upload"
+                  ? isEnglish ? "2. Add your file" : "2. เพิ่มไฟล์ของคุณ"
+                  : tab === "url"
+                    ? isEnglish ? "2. Paste a link" : "2. วางลิงก์"
+                    : isEnglish ? "2. Paste your text" : "2. วางข้อความ"}
+              </div>
+              <div className="flow-hint">
+                {tab === "upload"
+                  ? isEnglish ? "PDF, DOCX, PPTX or TXT" : "รองรับ PDF, DOCX, PPTX และ TXT"
+                  : tab === "url"
+                    ? isEnglish ? "Paste an article or page URL" : "วางลิงก์บทความหรือหน้าเว็บ"
+                    : isEnglish ? "Short text also works on mobile" : "ข้อความสั้นก็สรุปได้บนมือถือ"}
+              </div>
 
-            {tab === "upload" && (
-              <UploadTab
-                file={file}
-                dragging={dragging}
-                setDragging={setDragging}
+              {tab === "upload" && (
+                <UploadTab
+                  file={file}
+                  dragging={dragging}
+                  setDragging={setDragging}
+                  lang={lang}
+                  onFile={(f) => {
+                    setFile(f);
+                    reset();
+                  }}
+                  onRemove={() => {
+                    setFile(null);
+                    reset();
+                  }}
+                />
+              )}
+
+              {tab === "url" && (
+                <input
+                  className="url-input"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  placeholder={
+                    isEnglish
+                      ? "https://example.com/article..."
+                      : "https://example.com/article..."
+                  }
+                />
+              )}
+
+              {tab === "text" && (
+                <textarea
+                  className="text-input-area"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  placeholder={
+                    isEnglish
+                      ? "Paste article text, slide notes, or content here..."
+                      : "\u0e27\u0e32\u0e07\u0e02\u0e49\u0e2d\u0e04\u0e27\u0e32\u0e21 \u0e40\u0e19\u0e37\u0e49\u0e2d\u0e2b\u0e32\u0e2a\u0e44\u0e25\u0e14\u0e4c \u0e2b\u0e23\u0e37\u0e2d\u0e42\u0e19\u0e49\u0e15\u0e17\u0e35\u0e48\u0e19\u0e35\u0e48..."
+                  }
+                />
+              )}
+            </section>
+
+            <section className="flow-section">
+              <div className="flow-title">{isEnglish ? "3. Choose summary format" : "3. เลือกรูปแบบสรุป"}</div>
+              <ModeSelector
+                mode={mode}
+                setMode={setMode}
+                difficulty={diff}
+                setDifficulty={setDiff}
+                qCount={qCount}
+                setQCount={setQCount}
                 lang={lang}
-                onFile={(f) => {
-                  setFile(f);
-                  reset();
-                }}
-                onRemove={() => {
-                  setFile(null);
-                  reset();
-                }}
               />
-            )}
-
-            {tab === "url" && (
-              <input
-                className="url-input"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder={
-                  isEnglish
-                    ? "https://example.com/article..."
-                    : "https://example.com/article..."
-                }
-              />
-            )}
-
-            {tab === "text" && (
-              <textarea
-                className="text-input-area"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder={
-                  isEnglish
-                    ? "Paste article text, slide notes, or content here..."
-                    : "\u0e27\u0e32\u0e07\u0e02\u0e49\u0e2d\u0e04\u0e27\u0e32\u0e21 \u0e40\u0e19\u0e37\u0e49\u0e2d\u0e2b\u0e32\u0e2a\u0e44\u0e25\u0e14\u0e4c \u0e2b\u0e23\u0e37\u0e2d\u0e42\u0e19\u0e49\u0e15\u0e17\u0e35\u0e48\u0e19\u0e35\u0e48..."
-                }
-              />
-            )}
-            <ModeSelector
-              mode={mode}
-              setMode={setMode}
-              difficulty={diff}
-              setDifficulty={setDiff}
-              qCount={qCount}
-              setQCount={setQCount}
-              lang={lang}
-            />
+            </section>
 
             {error && (
               <div
