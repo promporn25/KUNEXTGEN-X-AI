@@ -436,10 +436,22 @@ export default function Home({
                 style={{
                   padding: "12px 14px",
                   borderRadius: 14,
-                  background: "var(--red-dim)",
-                  border: "1px solid rgba(184,66,66,0.18)",
-                  color: "var(--red)",
+                  background:
+                    theme === "dark"
+                      ? "rgba(255, 233, 233, 0.14)"
+                      : "rgba(255, 243, 243, 0.92)",
+                  border:
+                    theme === "dark"
+                      ? "1px solid rgba(255, 177, 177, 0.28)"
+                      : "1px solid rgba(184,66,66,0.18)",
+                  color: theme === "dark" ? "#FFD7D7" : "#9D2F2F",
                   fontSize: 13,
+                  lineHeight: 1.65,
+                  fontWeight: 600,
+                  boxShadow:
+                    theme === "dark"
+                      ? "0 10px 24px rgba(0,0,0,0.16)"
+                      : "0 10px 24px rgba(157,47,47,0.08)",
                 }}
               >
                 {isEnglish ? "Error:" : "ข้อผิดพลาด:"} {error}
