@@ -154,7 +154,7 @@ export default function LoginPage({ onAuthSuccess }) {
     async function completeRedirectLogin() {
       const credential = await finishGoogleRedirectLogin();
       if (!ignore && credential?.user) {
-        onAuthSuccess?.(credential.user);
+        completeAuthSuccess(credential.user);
       }
     }
 
@@ -167,6 +167,15 @@ export default function LoginPage({ onAuthSuccess }) {
   const clearMessages = () => {
     setError("");
     setSuccess("");
+  };
+
+  const completeAuthSuccess = (user) => {
+    if (!user) return;
+    onAuthSuccess?.(user);
+    window.setTimeout(() => {
+      if (window.location.pathname === "/reset-password") return;
+      window.location.replace(window.location.origin);
+    }, 60);
   };
 
   const switchMode = (next) => {
@@ -199,10 +208,10 @@ export default function LoginPage({ onAuthSuccess }) {
     try {
       if (mode === "login") {
         const credential = await loginWithEmail({ email, password });
-        onAuthSuccess?.(credential.user);
+        completeAuthSuccess(credential.user);
       } else if (mode === "register") {
         const cred = await registerWithEmail({ name, email, password });
-        onAuthSuccess?.(cred.user);
+        completeAuthSuccess(cred.user);
       } else {
         const auth = getAuth();
         await sendPasswordResetEmail(auth, email, {
@@ -225,7 +234,7 @@ export default function LoginPage({ onAuthSuccess }) {
     try {
       const credential = await loginWithGoogle();
       if (credential?.user) {
-        onAuthSuccess?.(credential.user);
+        completeAuthSuccess(credential.user);
       }
     } catch (e) {
       setError(getErrorMessage(e?.code, e?.message || "Google sign-in failed"));
@@ -1118,7 +1127,8 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-tab-switch {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
           }
         }
       `}</style>
