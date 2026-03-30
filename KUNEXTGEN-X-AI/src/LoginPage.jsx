@@ -443,10 +443,6 @@ export default function LoginPage({ onAuthSuccess }) {
           color: var(--bg-5);
         }
 
-        .login-mobile-kicker {
-          display: none;
-        }
-
         .login-hero {
           position: relative;
           z-index: 2;
@@ -898,30 +894,27 @@ export default function LoginPage({ onAuthSuccess }) {
             box-shadow: none;
             border: none;
             overflow: visible;
-            gap: 14px;
           }
 
           .login-left,
           .login-right {
-            padding: 22px 18px;
+            padding: 20px 16px;
           }
 
           .login-left {
-            border-radius: 32px;
-            padding: 22px 22px 24px;
+            border-radius: 28px;
+            padding: 18px 18px 82px;
             min-height: 0;
             justify-content: flex-start;
-            gap: 14px;
-            align-items: center;
-            text-align: center;
+            gap: 18px;
             box-shadow:
               0 24px 44px rgba(0,0,0,0.28),
               inset 0 1px 0 rgba(255,255,255,0.05);
           }
 
           .login-right {
-            margin: -16px 10px 0;
-            border-radius: 28px;
+            margin: -54px 10px 0;
+            border-radius: 24px;
             background:
               radial-gradient(circle at top right, rgba(255,255,255,0.7), transparent 28%),
               linear-gradient(180deg, #f9fbfb 0%, #e2e8e8 100%);
@@ -938,12 +931,11 @@ export default function LoginPage({ onAuthSuccess }) {
 
           .login-brand {
             gap: 12px;
-            justify-content: center;
           }
 
           .login-brand-badge {
-            width: 50px;
-            height: 50px;
+            width: 44px;
+            height: 44px;
             border-radius: 14px;
             font-size: 18px;
           }
@@ -952,75 +944,52 @@ export default function LoginPage({ onAuthSuccess }) {
             font-size: 18px;
           }
 
-          .login-brand-x,
-          .login-brand-ai {
-            color: inherit;
-          }
-
-          .login-mobile-kicker {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 34px;
-            padding: 8px 14px;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.12);
-            color: rgba(255,255,255,0.82);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-          }
-
           .login-hero {
             margin-top: 0;
-            align-items: center;
           }
 
           .login-illus {
-            position: relative;
-            top: auto;
-            right: auto;
-            width: 116px;
-            height: 116px;
-            margin: 6px auto 4px;
-            opacity: 1;
+            position: absolute;
+            top: 16px;
+            right: 14px;
+            width: 86px;
+            height: 86px;
+            margin: 0;
+            opacity: 0.82;
           }
 
           .login-illus .login-illus-ring:nth-child(2) {
-            inset: 12px;
+            inset: 10px;
           }
 
           .login-illus .login-illus-ring:nth-child(3) {
-            inset: 24px;
+            inset: 20px;
           }
 
           .login-illus-core {
-            width: 56px;
-            height: 56px;
-            font-size: 28px;
+            width: 42px;
+            height: 42px;
+            font-size: 20px;
           }
 
           .login-tagline {
-            font-size: 38px;
-            line-height: 0.98;
-            max-width: 9ch;
-            margin-bottom: 10px;
+            font-size: 42px;
+            line-height: 0.96;
+            max-width: 8ch;
+            margin-bottom: 12px;
           }
 
           .login-sub {
-            max-width: 28ch;
-            font-size: 13px;
-            line-height: 1.65;
-            margin-bottom: 14px;
+            max-width: 26ch;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 18px;
           }
 
           .login-chips {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            width: 100%;
           }
 
           .login-form-heading {
@@ -1028,28 +997,36 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-stats {
-            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 0;
+            max-width: none;
           }
 
-          .login-form-sub {
-            margin-bottom: 18px;
+          .login-stat {
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.07);
+          }
+
+          .login-stat-val {
+            font-size: 22px;
+            margin-bottom: 4px;
+          }
+
+          .login-stat-lbl {
+            font-size: 11px;
           }
 
           .login-tab-switch {
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 18px;
-            border-radius: 18px;
-            padding: 6px;
+            border-radius: 16px;
           }
 
           .login-switch-btn {
             font-size: 13px;
-            padding: 12px 12px;
-            background: transparent;
-          }
-
-          .login-switch-btn.active {
-            box-shadow: none;
+            padding: 11px 10px;
           }
 
           .field-input,
@@ -1085,39 +1062,41 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-left {
-            padding: 18px 16px 20px;
+            padding: 16px 16px 72px;
           }
 
           .login-right {
-            margin: -12px 6px 0;
+            margin: -46px 6px 0;
             border-radius: 22px;
           }
 
           .login-illus {
-            width: 96px;
-            height: 96px;
+            width: 72px;
+            height: 72px;
+            top: 14px;
+            right: 10px;
           }
 
           .login-tagline {
-            font-size: 31px;
-            max-width: 8ch;
+            font-size: 34px;
+            max-width: 7ch;
           }
 
           .login-sub {
             font-size: 13px;
-            max-width: 24ch;
+            max-width: 23ch;
           }
 
           .login-chips {
+            grid-template-columns: 1fr;
+          }
+
+          .login-stats {
             grid-template-columns: 1fr 1fr;
           }
 
           .login-tab-switch {
             grid-template-columns: 1fr;
-          }
-
-          .login-form-heading {
-            font-size: 24px;
           }
         }
       `}</style>
@@ -1142,8 +1121,6 @@ export default function LoginPage({ onAuthSuccess }) {
                 <span className="login-brand-ai">AI</span>
               </div>
             </div>
-
-            <div className="login-mobile-kicker">Study companion for KU students</div>
 
             <div className="login-hero">
               <div className="login-illus">
