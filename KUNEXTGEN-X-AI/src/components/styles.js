@@ -5513,6 +5513,34 @@ export const baseStyles = `
       border-radius: 18px;
     }
   }
+
+  @media (max-width: 640px) {
+    .layout:not(.mobile-show-result):not(.mobile-sidebar-open) .sidebar {
+      padding-bottom: 104px;
+    }
+
+    .layout:not(.mobile-show-result):not(.mobile-sidebar-open) .sidebar-footer {
+      position: fixed !important;
+      left: 12px;
+      right: 12px;
+      bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      z-index: 260;
+      padding: 0;
+      background: transparent !important;
+      border-top: 0 !important;
+      pointer-events: none;
+    }
+
+    .layout:not(.mobile-show-result):not(.mobile-sidebar-open) .sidebar-footer .action-btn {
+      min-height: 54px;
+      height: 54px;
+      border-radius: 20px;
+      pointer-events: auto;
+      box-shadow:
+        0 18px 36px rgba(6,20,27,0.22),
+        0 0 0 1px rgba(255,255,255,0.06);
+    }
+  }
 `;
 
 
