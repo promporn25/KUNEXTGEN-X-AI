@@ -141,6 +141,7 @@ export default function Home({
           setSourceSectionsSnapshot(data.sourceSections || []);
           setResult({ type: "quiz", data: data.data });
           saveHistory({
+            uid: currentUser?.uid,
             fileName: submittedFileName,
             mode,
             type: "quiz",
@@ -159,6 +160,7 @@ export default function Home({
           setSourceSectionsSnapshot(data.sourceSections || []);
           setResult({ type: "flashcard", data: data.data });
           saveHistory({
+            uid: currentUser?.uid,
             fileName: submittedFileName,
             mode,
             type: "flashcard",
@@ -174,6 +176,7 @@ export default function Home({
         setSourceSectionsSnapshot(data.sourceSections || []);
         setResult({ type: "text", raw: data.result });
         saveHistory({
+          uid: currentUser?.uid,
           fileName: submittedFileName,
           mode,
           type: "text",
@@ -264,7 +267,7 @@ export default function Home({
         </button>
 
         <div className="topnav-right">
-          <HistoryPanel onRestore={handleRestore} />
+          <HistoryPanel uid={currentUser?.uid} onRestore={handleRestore} />
 
           <button
             className="topnav-btn topnav-lang-btn"

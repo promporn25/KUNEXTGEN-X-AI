@@ -15,6 +15,43 @@ import { db } from "../firebase";
 const LOCAL_KEY = "ku_ai_history";
 const MAX_ITEMS = 20;
 
+async function migrateLocalHistoryToCloud(uid) {
+  if (!uid) return;
+
+  try {
+    const localItems = JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]");
+    if (!Array.isArray(localItems) || localItems.length === 0) return;
+
+    await Promise.all(
+      localItems.slice(0, MAX_ITEMS).map((item) =>
+        addDoc(collection(db, "users", uid, "history"), {
+          fileName: item.fileName || "ข้อความ",
+          mode: item.mode || "summary",
+          type: item.type || "text",
+          result: item.result || "",
+          data: item.data || null,
+          sourceText: item.sourceText || "",
+          sourceSections: item.sourceSections || [],
+          preview: item.preview || "",
+          dateLabel:
+            item.dateLabel ||
+            new Date().toLocaleDateString("th-TH", {
+              day: "numeric",
+              month: "short",
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          createdAt: serverTimestamp(),
+        })
+      )
+    );
+
+    localStorage.removeItem(LOCAL_KEY);
+  } catch (e) {
+    console.warn("Local history migration failed", e);
+  }
+}
+
 export async function saveHistory({
   uid,
   fileName,
@@ -80,6 +117,7 @@ export default function HistoryPanel({ uid, onRestore }) {
 
     if (uid) {
       try {
+        await migrateLocalHistoryToCloud(uid);
         const q = query(
           collection(db, "users", uid, "history"),
           orderBy("createdAt", "desc"),
