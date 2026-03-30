@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { loginWithEmail, loginWithGoogle } from "./firebase";
+import {
+  finishGoogleRedirectLogin,
+  loginWithEmail,
+  loginWithGoogle,
+} from "./firebase";
 import {
   getAuth,
   sendPasswordResetEmail,
@@ -145,6 +149,22 @@ export default function LoginPage({ onAuthSuccess }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  useEffect(() => {
+    let ignore = false;
+
+    async function completeRedirectLogin() {
+      const credential = await finishGoogleRedirectLogin();
+      if (!ignore && credential?.user) {
+        onAuthSuccess?.(credential.user);
+      }
+    }
+
+    completeRedirectLogin();
+    return () => {
+      ignore = true;
+    };
+  }, [onAuthSuccess]);
+
   const clearMessages = () => {
     setError("");
     setSuccess("");
@@ -211,7 +231,9 @@ export default function LoginPage({ onAuthSuccess }) {
 
     try {
       const credential = await loginWithGoogle();
-      onAuthSuccess?.(credential.user);
+      if (credential?.user) {
+        onAuthSuccess?.(credential.user);
+      }
     } catch (e) {
       setError(getErrorMessage(e?.code, e?.message || "Google sign-in failed"));
     } finally {
