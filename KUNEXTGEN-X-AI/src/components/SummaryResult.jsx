@@ -34,6 +34,11 @@ function cleanText(text = "") {
     .trim();
 }
 
+function isDividerLine(line = "") {
+  const trimmed = cleanText(line).trim();
+  return /^[-–—_]{2,}$/.test(trimmed);
+}
+
 function isHeading(line = "") {
   const trimmed = String(line).trim();
   return (
@@ -47,7 +52,7 @@ function renderLines(raw = "") {
   return String(raw)
     .split("\n")
     .map((line) => cleanText(line))
-    .filter(Boolean)
+    .filter((line) => line && !isDividerLine(line))
     .map((line, index) => {
       const plain = line.replace(/^#+\s*/, "").trim();
       const isStrongLine =
@@ -90,7 +95,7 @@ function parseSummarySections(raw = "", lang = "th") {
 
   lines.forEach((line) => {
     const trimmed = cleanText(line);
-    if (!trimmed) return;
+    if (!trimmed || isDividerLine(trimmed)) return;
 
     if (isHeading(line)) {
       if (current) sections.push(current);
@@ -125,7 +130,7 @@ function parseSourceSections(sourceText = "", lang = "th") {
   const blocks = String(sourceText)
     .split(/\n{2,}/)
     .map((block) => cleanText(block))
-    .filter(Boolean);
+    .filter((block) => block && !isDividerLine(block));
 
   return blocks.slice(0, 20).map((block, index) => {
     const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
