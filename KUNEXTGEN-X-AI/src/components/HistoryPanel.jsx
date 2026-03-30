@@ -46,6 +46,7 @@ function getEntrySignature(item = {}) {
 
 function mergeHistoryItems(primary = [], secondary = []) {
   const seen = new Set();
+
   return [...primary, ...secondary]
     .filter(Boolean)
     .filter((item) => {
@@ -71,7 +72,7 @@ function buildPreview({ result, data, type, sourceText }) {
   return String(sourceText || "ไม่มีตัวอย่างผลลัพธ์").slice(0, 120);
 }
 
-async function withTimeout(promise, timeoutMs = 7000) {
+async function withTimeout(promise, timeoutMs = 6000) {
   let timer;
   return Promise.race([
     promise.finally(() => clearTimeout(timer)),
@@ -81,35 +82,13 @@ async function withTimeout(promise, timeoutMs = 7000) {
   ]);
 }
 
-async function mirrorLocalHistoryToCloud(uid) {
+async function saveHistoryToCloud(uid, entry) {
   if (!uid || !db) return;
 
-  const localItems = readLocalHistory();
-  if (!localItems.length) return;
-
-  try {
-    await Promise.all(
-      localItems.map((item) =>
-        addDoc(collection(db, "users", uid, "history"), {
-          fileName: item.fileName || "ข้อความ",
-          mode: item.mode || "summary",
-          type: item.type || "text",
-          result: item.result || "",
-          data: item.data || null,
-          sourceText: item.sourceText || "",
-          sourceSections: item.sourceSections || [],
-          preview: item.preview || "",
-          dateLabel: item.dateLabel || "",
-          createdAt: serverTimestamp(),
-        })
-      )
-    );
-
-    localStorage.removeItem(LOCAL_KEY);
-    notifyHistoryUpdated([]);
-  } catch (error) {
-    console.warn("Local history sync failed", error);
-  }
+  await addDoc(collection(db, "users", uid, "history"), {
+    ...entry,
+    createdAt: serverTimestamp(),
+  });
 }
 
 export async function saveHistory({
@@ -141,17 +120,14 @@ export async function saveHistory({
     }),
   };
 
-  const localNext = [entry, ...readLocalHistory()].slice(0, MAX_ITEMS);
-  writeLocalHistory(localNext);
-  notifyHistoryUpdated(localNext);
+  const nextLocal = [entry, ...readLocalHistory()].slice(0, MAX_ITEMS);
+  writeLocalHistory(nextLocal);
+  notifyHistoryUpdated(nextLocal);
 
   if (!uid || !db) return;
 
   try {
-    await addDoc(collection(db, "users", uid, "history"), {
-      ...entry,
-      createdAt: serverTimestamp(),
-    });
+    await saveHistoryToCloud(uid, entry);
   } catch (error) {
     console.warn("Firestore save failed", error);
   }
@@ -173,15 +149,11 @@ export default function HistoryPanel({ uid, onRestore }) {
   const load = useCallback(async () => {
     const localItems = readLocalHistory();
     setItems(localItems);
-    setLoading(Boolean(uid));
+    setLoading(Boolean(uid) && localItems.length === 0);
 
-    if (!uid || !db) {
-      setLoading(false);
-      return;
-    }
+    if (!uid || !db) return;
 
     try {
-      await mirrorLocalHistoryToCloud(uid);
       const historyQuery = query(
         collection(db, "users", uid, "history"),
         orderBy("createdAt", "desc"),
@@ -215,18 +187,15 @@ export default function HistoryPanel({ uid, onRestore }) {
   const clearAll = async () => {
     writeLocalHistory([]);
     notifyHistoryUpdated([]);
+    setItems([]);
 
-    if (!uid || !db) {
-      setItems([]);
-      return;
-    }
+    if (!uid || !db) return;
 
     try {
       const snap = await getDocs(collection(db, "users", uid, "history"));
       await Promise.all(
         snap.docs.map((item) => deleteDoc(doc(db, "users", uid, "history", item.id)))
       );
-      setItems([]);
     } catch (error) {
       console.warn("Firestore clear failed", error);
     }
@@ -256,7 +225,7 @@ export default function HistoryPanel({ uid, onRestore }) {
             </button>
           </div>
 
-          {loading ? (
+          {loading && items.length === 0 ? (
             <div
               style={{
                 padding: "1rem",
