@@ -124,24 +124,37 @@ app.post("/api/chat", async (req, res) => {
       return res.status(400).json({ error: "missing message" });
     }
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: `คุณเป็น AI ผู้ช่วยสอน
+    const buildChatMessages = (contextText, historyItems) => [
+      {
+        role: "system",
+        content: `คุณเป็น AI ผู้ช่วยสอน
 อธิบายเนื้อหาให้เข้าใจง่าย กระชับ ตรงคำถาม และตอบเป็นภาษาไทย
 ถ้าคำตอบยาวเกินจำเป็นให้สรุปเป็นหัวข้อสั้น ๆ ก่อน
 
 เนื้อหา:
-${compactContext}`
-        },
-        ...compactHistory,
-        { role: "user", content: trimmedMessage }
-      ],
-      temperature: 0.3,
-      max_tokens: 450,
-    });
+${contextText}`
+      },
+      ...historyItems,
+      { role: "user", content: trimmedMessage }
+    ];
+
+    let completion;
+    try {
+      completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: buildChatMessages(compactContext, compactHistory),
+        temperature: 0.3,
+        max_tokens: 450,
+      });
+    } catch (primaryErr) {
+      console.error("CHAT PRIMARY ERROR:", primaryErr);
+      completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: buildChatMessages(compactContext.slice(0, 1800), []),
+        temperature: 0.2,
+        max_tokens: 280,
+      });
+    }
 
     res.json({
       reply: completion.choices[0].message.content,
@@ -149,7 +162,7 @@ ${compactContext}`
 
   } catch (err) {
     console.error("CHAT ERROR:", err);
-    res.status(500).json({ error: "chat failed" });
+    res.status(500).json({ error: err?.message || "chat failed" });
   }
 });
 

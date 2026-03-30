@@ -3,14 +3,14 @@ import { apiUrl } from "../lib/api-base";
 
 function getSuggestions(mode) {
   const common = [
-    "สรุปให้สั้นลงอีก",
+    "สรุปให้อีกครั้งแบบสั้นกว่าเดิม",
     "อธิบายแบบเข้าใจง่าย",
     "ยกตัวอย่างประกอบ",
     "สรุปเป็น 5 บรรทัด",
   ];
 
   if (mode === "quiz") {
-    return [...common, "ออกข้อสอบเพิ่มอีก 5 ข้อ", "เฉลยแต่ละข้อแบบละเอียด"];
+    return [...common, "ออกข้อสอบเพิ่มอีก 5 ข้อ", "อธิบายเฉลยแต่ละข้อ"];
   }
 
   if (mode === "flashcard") {
@@ -26,7 +26,6 @@ function getChatTheme() {
 
   return isDark
     ? {
-        isDark,
         panel: "rgba(18,33,45,0.96)",
         panelRaised: "rgba(37,55,69,0.92)",
         panelBody: "rgba(17,33,45,0.98)",
@@ -42,7 +41,6 @@ function getChatTheme() {
         chipBg: "rgba(6,20,27,0.88)",
       }
     : {
-        isDark,
         panel: "rgba(255,255,255,0.96)",
         panelRaised: "rgba(240,243,243,0.98)",
         panelBody: "rgba(248,249,249,0.99)",
@@ -89,9 +87,8 @@ function cleanMarkdown(text = "") {
     .replace(/\*/g, "");
 }
 
-function Message({ msg }) {
+function Message({ msg, theme }) {
   const isUser = msg.role === "user";
-  const theme = getChatTheme();
   const content = cleanMarkdown(msg.content);
 
   return (
@@ -163,31 +160,29 @@ export default function AIChatPanel({ contentText, mode }) {
   const theme = getChatTheme();
   const suggestions = useMemo(() => getSuggestions(mode), [mode]);
 
-  const compactContext = useMemo(() => {
-    return String(contentText || "").slice(0, 3500);
-  }, [contentText]);
+  const compactContext = useMemo(() => String(contentText || "").slice(0, 3500), [contentText]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   useEffect(() => {
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 100);
-      if (messages.length === 0) {
-        setMessages([
-          {
-            role: "assistant",
-            content:
-              "Ask From Summary พร้อมแล้วครับ คุณถามต่อจากบทสรุปได้เลย เช่น ขอให้อธิบายง่ายขึ้น ยกตัวอย่างเพิ่มเติม หรือช่วยจับประเด็นสำคัญ",
-          },
-        ]);
-      }
+    if (!open) return;
+
+    setTimeout(() => inputRef.current?.focus(), 100);
+    if (messages.length === 0) {
+      setMessages([
+        {
+          role: "assistant",
+          content:
+            "Ask From Summary พร้อมแล้วครับ คุณถามต่อจากบทสรุปได้เลย เช่น ขอให้อธิบายง่ายขึ้น ยกตัวอย่างเพิ่ม หรือช่วยจับประเด็นสำคัญ",
+        },
+      ]);
     }
   }, [open, messages.length]);
 
   const sendMessage = async (text) => {
-    const q = text.trim();
+    const q = String(text || "").trim();
     if (!q || loading) return;
 
     setInput("");
@@ -212,10 +207,12 @@ export default function AIChatPanel({ contentText, mode }) {
         }),
       });
 
-      if (!response.ok) throw new Error(`API error: ${response.status}`);
-
       const data = await response.json();
-      const reply = data.reply || "ขออภัยครับ ตอนนี้ยังตอบไม่ได้ ลองใหม่อีกครั้งได้เลย";
+      if (!response.ok) {
+        throw new Error(data?.error || `API error: ${response.status}`);
+      }
+
+      const reply = data?.reply || "ขออภัยครับ ตอนนี้ยังตอบไม่ได้ ลองใหม่อีกครั้งได้เลย";
 
       setMessages((prev) => [
         ...prev.filter((m) => !m.typing),
@@ -226,7 +223,7 @@ export default function AIChatPanel({ contentText, mode }) {
         ...prev.filter((m) => !m.typing),
         {
           role: "assistant",
-          content: "เกิดข้อผิดพลาดในการตอบ ลองส่งข้อความอีกครั้งได้เลยครับ",
+          content: `เกิดข้อผิดพลาดในการตอบ: ${error?.message || "ไม่ทราบสาเหตุ"} ลองส่งข้อความอีกครั้งได้เลยครับ`,
         },
       ]);
     } finally {
@@ -273,9 +270,8 @@ export default function AIChatPanel({ contentText, mode }) {
           border: `1px solid ${theme.border}`,
           overflow: "hidden",
           background: theme.panel,
-          boxShadow: theme.isDark
-            ? "0 22px 48px rgba(0,0,0,0.24)"
-            : "0 20px 44px rgba(6,20,27,0.10)",
+          boxShadow:
+            "0 20px 44px rgba(6,20,27,0.10)",
           animation: "panelSlide 0.24s ease",
         }}
       >
@@ -372,7 +368,7 @@ export default function AIChatPanel({ contentText, mode }) {
               }}
             >
               {messages.map((msg, index) => (
-                <Message key={`${msg.role}-${index}`} msg={msg} />
+                <Message key={`${msg.role}-${index}`} msg={msg} theme={theme} />
               ))}
               <div ref={bottomRef} />
             </div>
@@ -466,7 +462,7 @@ export default function AIChatPanel({ contentText, mode }) {
                   marginTop: 10,
                 }}
               >
-                AI จะแนะนำเนื้อหาที่สรุปไว้ แล้วตอบกลับเป็นภาษาไทย
+                AI จะแนะนำจากเนื้อหาที่สรุปไว้ และตอบกลับเป็นภาษาไทย
               </div>
             </div>
           </div>
