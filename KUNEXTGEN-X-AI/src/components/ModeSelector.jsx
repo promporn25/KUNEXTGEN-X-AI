@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const MODE_COPY = {
   th: {
     title: "รูปแบบการสรุป",
@@ -47,17 +49,27 @@ export default function ModeSelector({
   lang = "th",
 }) {
   const copy = MODE_COPY[lang] || MODE_COPY.th;
+  const [countInput, setCountInput] = useState(String(qCount ?? 1));
+
+  useEffect(() => {
+    setCountInput(String(qCount ?? 1));
+  }, [qCount, mode]);
 
   const handleCountChange = (event) => {
-    const digitsOnly = event.target.value.replace(/\D/g, "");
+    const digitsOnly = event.target.value.replace(/\D/g, "").slice(0, 3);
+    setCountInput(digitsOnly);
+  };
 
-    if (!digitsOnly) {
+  const commitCountInput = () => {
+    if (!countInput) {
       setQCount(1);
+      setCountInput("1");
       return;
     }
 
-    const normalized = Math.min(100, Math.max(1, Number.parseInt(digitsOnly, 10)));
+    const normalized = Math.min(100, Math.max(1, Number.parseInt(countInput, 10)));
     setQCount(normalized);
+    setCountInput(String(normalized));
   };
 
   return (
@@ -116,8 +128,9 @@ export default function ModeSelector({
               pattern="[0-9]*"
               min={1}
               max={100}
-              value={qCount}
+              value={countInput}
               onChange={handleCountChange}
+              onBlur={commitCountInput}
             />
           </div>
         </div>

@@ -2771,6 +2771,105 @@ body.dark .empty-greeting {
     }
   }
 
+  @media (max-width: 1180px) and (min-width: 821px) {
+    .layout {
+      grid-template-columns: 306px minmax(0, 1fr);
+    }
+
+    .sidebar-inner {
+      padding: 16px 14px 18px;
+      gap: 14px;
+    }
+
+    .options-panel {
+      padding: 12px;
+      margin-top: 4px;
+    }
+
+    .sidebar .options-grid {
+      gap: 10px;
+    }
+
+    .option-card {
+      min-height: 72px;
+      padding: 12px;
+      border-radius: 14px;
+      gap: 10px;
+    }
+
+    .option-label {
+      font-size: 14px;
+    }
+
+    .option-desc {
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .quiz-options {
+      padding: 12px;
+      gap: 12px;
+    }
+
+    .count-input,
+    .settings-input,
+    .settings-control,
+    .url-input {
+      min-height: 42px;
+      height: 42px;
+    }
+
+    .text-input-area {
+      min-height: 124px;
+    }
+
+    .main-panel {
+      padding: 24px 24px 40px;
+    }
+
+    .empty-main {
+      max-width: 560px;
+    }
+
+    .empty-title {
+      max-width: 10ch;
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .empty-body {
+      max-width: 420px;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .empty-steps {
+      max-width: 420px;
+      gap: 10px;
+    }
+
+    .empty-step {
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+
+    .loader-card,
+    .loader-card.progress-loader-card {
+      max-width: 560px;
+      padding: 28px 24px;
+      border-radius: 24px;
+    }
+
+    .loader-card-inner,
+    .progress-loader-inner {
+      min-height: 360px;
+    }
+
+    .loader-title {
+      font-size: 28px;
+    }
+  }
+
   @media (max-width: 980px) {
     .login-card {
       grid-template-columns: 1fr;
