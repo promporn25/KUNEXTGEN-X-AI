@@ -57,15 +57,6 @@ function ensurePersistence() {
   return persistencePromise;
 }
 
-function prefersRedirectAuth() {
-  if (typeof window === "undefined") return false;
-  const ua = window.navigator.userAgent || "";
-  return (
-    /Android|iPhone|iPad|iPod|Mobile/i.test(ua) ||
-    ("ontouchstart" in window && window.innerWidth <= 820)
-  );
-}
-
 export function onAuthChanged(callback) {
   if (!auth) return () => {};
   return onAuthStateChanged(auth, callback);
@@ -78,12 +69,23 @@ export async function loginWithGoogle() {
 
   await ensurePersistence();
 
-  if (prefersRedirectAuth()) {
+  try {
+    return await signInWithPopup(auth, provider);
+  } catch (error) {
+    const fallbackCodes = new Set([
+      "auth/popup-blocked",
+      "auth/popup-closed-by-user",
+      "auth/cancelled-popup-request",
+      "auth/operation-not-supported-in-this-environment",
+    ]);
+
+    if (!fallbackCodes.has(error?.code)) {
+      throw error;
+    }
+
     await signInWithRedirect(auth, provider);
     return null;
   }
-
-  return signInWithPopup(auth, provider);
 }
 
 export async function finishGoogleRedirectLogin() {
