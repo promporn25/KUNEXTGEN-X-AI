@@ -355,8 +355,8 @@ export default function LoginPage({ onAuthSuccess }) {
         .login-card {
           position: relative;
           z-index: 2;
-          width: min(1160px, 100%);
-          min-height: 720px;
+          width: min(1080px, 100%);
+          min-height: 680px;
           display: grid;
           grid-template-columns: 1.05fr 0.95fr;
           border-radius: var(--radius-2xl);
@@ -372,7 +372,7 @@ export default function LoginPage({ onAuthSuccess }) {
 
         .login-left {
           position: relative;
-          padding: 42px;
+          padding: 36px;
           background:
             radial-gradient(circle at 20% 15%, rgba(255,255,255,0.05), transparent 20%),
             linear-gradient(180deg, #06141B 0%, #11212D 60%, #06141B 100%);
@@ -385,7 +385,7 @@ export default function LoginPage({ onAuthSuccess }) {
 
         .login-right {
           position: relative;
-          padding: 34px;
+          padding: 30px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -396,7 +396,7 @@ export default function LoginPage({ onAuthSuccess }) {
 
         .login-right-inner {
           width: 100%;
-          max-width: 430px;
+          max-width: 402px;
         }
 
         .login-ring,
@@ -512,7 +512,7 @@ export default function LoginPage({ onAuthSuccess }) {
         }
 
         .login-tagline {
-          font-size: clamp(36px, 5vw, 56px);
+          font-size: clamp(34px, 4.5vw, 52px);
           line-height: 1.02;
           font-weight: 800;
           letter-spacing: -0.05em;
@@ -877,6 +877,101 @@ export default function LoginPage({ onAuthSuccess }) {
 
         .back-btn:hover {
           color: #06141B;
+        }
+
+        @media (max-width: 1280px) and (min-width: 981px) {
+          .login-page {
+            padding: 20px;
+          }
+
+          .login-card {
+            width: min(980px, 100%);
+            min-height: 620px;
+            grid-template-columns: 0.98fr 1.02fr;
+          }
+
+          .login-left {
+            padding: 30px 28px;
+          }
+
+          .login-right {
+            padding: 24px 26px;
+          }
+
+          .login-right-inner {
+            max-width: 380px;
+          }
+
+          .login-brand-badge {
+            width: 44px;
+            height: 44px;
+            font-size: 18px;
+          }
+
+          .login-brand-name {
+            font-size: 19px;
+          }
+
+          .login-illus {
+            width: 148px;
+            height: 148px;
+            margin-bottom: 18px;
+          }
+
+          .login-illus-core {
+            width: 64px;
+            height: 64px;
+            font-size: 28px;
+          }
+
+          .login-tagline {
+            font-size: 42px;
+            max-width: 8.5ch;
+            margin-bottom: 12px;
+          }
+
+          .login-sub {
+            font-size: 14px;
+            line-height: 1.65;
+            margin-bottom: 20px;
+          }
+
+          .login-chips {
+            gap: 8px;
+          }
+
+          .login-chip {
+            padding: 8px 12px;
+            font-size: 12px;
+          }
+
+          .login-stats {
+            gap: 12px;
+            max-width: 360px;
+          }
+
+          .login-stat {
+            padding: 14px;
+          }
+
+          .login-stat-val {
+            font-size: 24px;
+          }
+
+          .login-tab-switch {
+            margin-bottom: 20px;
+          }
+
+          .login-switch-btn {
+            min-height: 50px;
+            font-size: 13px;
+          }
+
+          .field-input,
+          .submit-btn,
+          .google-btn {
+            height: 50px;
+          }
         }
 
         @media (max-width: 980px) {
