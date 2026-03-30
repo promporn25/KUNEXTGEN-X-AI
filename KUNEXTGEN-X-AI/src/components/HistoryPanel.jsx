@@ -135,7 +135,7 @@ export default function HistoryPanel({ uid, onRestore }) {
         }}
       >
         🕐 ประวัติ ({items.length})
-        <span className="history-chevron">{open ? "▲" : "▼"}</span>
+        <span className="history-chevron">{open ? "▴" : "▾"}</span>
       </button>
 
       {open && (

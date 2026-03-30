@@ -66,10 +66,12 @@ export default function Home({
 
   const changeTab = (id) => {
     setTab(id);
+    setMobilePanel("input");
     reset();
   };
 
   const goHome = () => {
+    setMobilePanel("input");
     setLoading(false);
     setResult(null);
     setError("");
@@ -81,10 +83,12 @@ export default function Home({
   const loadDemo = (sample) => {
     setText(sample);
     setTab("text");
+    setMobilePanel("input");
     reset();
   };
 
   const handleRestore = (item) => {
+    setMobilePanel("result");
     setResultFileName(item.fileName || "");
     if (item.type === "text") {
       setResult({ type: "text", raw: item.result });
