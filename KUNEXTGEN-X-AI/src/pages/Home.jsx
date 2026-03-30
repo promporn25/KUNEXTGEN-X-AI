@@ -54,6 +54,19 @@ export default function Home({
     document.title = "KUNextGen x AI";
   }, [theme]);
 
+  useEffect(() => {
+    if (!loading) return;
+
+    const scrollToProgress = () => {
+      mainPanelRef.current?.scrollTo?.({ top: 0, behavior: "smooth" });
+      mainPanelRef.current?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const timer = window.setTimeout(scrollToProgress, 90);
+    return () => window.clearTimeout(timer);
+  }, [loading]);
+
   const canSubmit =
     (tab === "upload" && file) ||
     (tab === "url" && url.trim().length > 5) ||
@@ -103,13 +116,6 @@ export default function Home({
   const submit = async () => {
     setLoading(true);
     reset();
-
-    if (typeof window !== "undefined") {
-      requestAnimationFrame(() => {
-        mainPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    }
 
     const submittedFileName = tab === "upload" ? file?.name || "" : "";
     const submittedInputSnapshot =

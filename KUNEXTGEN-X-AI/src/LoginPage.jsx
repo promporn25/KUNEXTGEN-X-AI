@@ -145,6 +145,7 @@ export default function LoginPage({ onAuthSuccess }) {
   const [name, setName] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [handingOff, setHandingOff] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -171,6 +172,7 @@ export default function LoginPage({ onAuthSuccess }) {
 
   const completeAuthSuccess = (user) => {
     if (!user) return;
+    setHandingOff(true);
     setError("");
     setSuccess("");
     onAuthSuccess?.(user);
@@ -219,6 +221,7 @@ export default function LoginPage({ onAuthSuccess }) {
         setSuccess("ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลของคุณแล้ว");
       }
     } catch (e) {
+      setHandingOff(false);
       setError(getErrorMessage(e?.code, e?.message));
     } finally {
       setLoading(false);
@@ -235,6 +238,7 @@ export default function LoginPage({ onAuthSuccess }) {
         completeAuthSuccess(credential.user);
       }
     } catch (e) {
+      setHandingOff(false);
       setError(getErrorMessage(e?.code, e?.message || "Google sign-in failed"));
     } finally {
       setLoading(false);
@@ -881,25 +885,25 @@ export default function LoginPage({ onAuthSuccess }) {
 
         @media (max-width: 1280px) and (min-width: 981px) {
           .login-page {
-            padding: 20px;
+            padding: 16px;
           }
 
           .login-card {
-            width: min(980px, 100%);
-            min-height: 620px;
-            grid-template-columns: 0.98fr 1.02fr;
+            width: min(920px, 100%);
+            min-height: 580px;
+            grid-template-columns: 0.94fr 1.06fr;
           }
 
           .login-left {
-            padding: 30px 28px;
+            padding: 24px 22px;
           }
 
           .login-right {
-            padding: 24px 26px;
+            padding: 20px 22px;
           }
 
           .login-right-inner {
-            max-width: 380px;
+            max-width: 360px;
           }
 
           .login-brand-badge {
@@ -925,33 +929,33 @@ export default function LoginPage({ onAuthSuccess }) {
           }
 
           .login-tagline {
-            font-size: 42px;
-            max-width: 8.5ch;
-            margin-bottom: 12px;
+            font-size: 36px;
+            max-width: 8.2ch;
+            margin-bottom: 10px;
           }
 
           .login-sub {
-            font-size: 14px;
-            line-height: 1.65;
-            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.58;
+            margin-bottom: 14px;
           }
 
           .login-chips {
-            gap: 8px;
+            gap: 7px;
           }
 
           .login-chip {
-            padding: 8px 12px;
-            font-size: 12px;
+            padding: 7px 10px;
+            font-size: 11px;
           }
 
           .login-stats {
-            gap: 12px;
-            max-width: 360px;
+            gap: 8px;
+            max-width: 330px;
           }
 
           .login-stat {
-            padding: 14px;
+            padding: 12px;
           }
 
           .login-stat-val {
@@ -1247,6 +1251,31 @@ export default function LoginPage({ onAuthSuccess }) {
       `}</style>
 
       <div className="login-page">
+        {handingOff && (
+          <div style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 40,
+            background: "rgba(246,248,248,0.62)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            display: "grid",
+            placeItems: "center",
+          }}>
+            <div style={{
+              padding: "14px 18px",
+              borderRadius: 18,
+              background: "rgba(255,255,255,0.92)",
+              border: "1px solid rgba(6,20,27,0.08)",
+              boxShadow: "0 20px 40px rgba(6,20,27,0.12)",
+              fontSize: 14,
+              fontWeight: 700,
+              color: "#06141B",
+            }}>
+              กำลังเข้าสู่ระบบ...
+            </div>
+          </div>
+        )}
         <ParticleCanvas />
         <div className="login-orb login-orb-1" />
         <div className="login-orb login-orb-2" />

@@ -62,8 +62,6 @@ export default function ModeSelector({
 
   const commitCountInput = () => {
     if (!countInput) {
-      setQCount(1);
-      setCountInput("1");
       return;
     }
 

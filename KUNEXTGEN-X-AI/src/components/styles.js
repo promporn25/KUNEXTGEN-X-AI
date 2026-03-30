@@ -2773,42 +2773,42 @@ body.dark .empty-greeting {
 
   @media (max-width: 1180px) and (min-width: 821px) {
     .layout {
-      grid-template-columns: 292px minmax(0, 1fr);
+      grid-template-columns: 276px minmax(0, 1fr);
     }
 
     .sidebar-inner {
-      padding: 14px 12px 16px;
-      gap: 12px;
+      padding: 12px 10px 14px;
+      gap: 10px;
     }
 
     .options-panel {
-      padding: 10px;
+      padding: 8px;
       margin-top: 2px;
     }
 
     .sidebar .options-grid {
-      gap: 8px;
+      gap: 7px;
     }
 
     .option-card {
-      min-height: 64px;
-      padding: 10px 11px;
-      border-radius: 13px;
-      gap: 9px;
+      min-height: 58px;
+      padding: 8px 9px;
+      border-radius: 12px;
+      gap: 8px;
     }
 
     .option-label {
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .option-desc {
-      font-size: 10px;
-      line-height: 1.3;
+      font-size: 9px;
+      line-height: 1.25;
     }
 
     .quiz-options {
-      padding: 10px;
-      gap: 10px;
+      padding: 8px;
+      gap: 8px;
     }
 
     .count-input,
@@ -2820,53 +2820,53 @@ body.dark .empty-greeting {
     }
 
     .text-input-area {
-      min-height: 116px;
+      min-height: 102px;
     }
 
     .main-panel {
-      padding: 22px 22px 34px;
+      padding: 18px 18px 28px;
     }
 
     .empty-main {
-      max-width: 500px;
+      max-width: 430px;
     }
 
     .empty-title {
-      max-width: 9ch;
-      font-size: 36px;
-      margin-bottom: 10px;
+      max-width: 8.2ch;
+      font-size: 32px;
+      margin-bottom: 8px;
     }
 
     .empty-body {
-      max-width: 380px;
-      font-size: 13px;
-      margin-bottom: 16px;
+      max-width: 320px;
+      font-size: 12px;
+      margin-bottom: 12px;
     }
 
     .empty-steps {
-      max-width: 380px;
-      gap: 8px;
+      max-width: 320px;
+      gap: 7px;
     }
 
     .empty-step {
-      padding: 10px 12px;
-      font-size: 12px;
+      padding: 9px 11px;
+      font-size: 11px;
     }
 
     .loader-card,
     .loader-card.progress-loader-card {
-      max-width: 500px;
-      padding: 24px 20px;
+      max-width: 460px;
+      padding: 22px 18px;
       border-radius: 22px;
     }
 
     .loader-card-inner,
     .progress-loader-inner {
-      min-height: 320px;
+      min-height: 280px;
     }
 
     .loader-title {
-      font-size: 25px;
+      font-size: 22px;
     }
   }
 
@@ -4717,6 +4717,10 @@ body.dark .empty-greeting {
       display: none;
     }
 
+    .history-wrap {
+      display: none;
+    }
+
     .sidebar-inner,
     .sidebar-footer,
     .main-panel {
@@ -4729,9 +4733,9 @@ body.dark .empty-greeting {
     }
 
     .option-card {
-      min-height: 56px;
-      padding: 8px;
-      gap: 6px;
+      min-height: 52px;
+      padding: 7px 8px;
+      gap: 5px;
     }
 
     .option-label {
