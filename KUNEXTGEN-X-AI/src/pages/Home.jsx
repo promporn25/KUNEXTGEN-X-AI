@@ -267,7 +267,7 @@ export default function Home({
           <HistoryPanel onRestore={handleRestore} />
 
           <button
-            className="topnav-btn"
+            className="topnav-btn topnav-lang-btn"
             onClick={() => setLang((v) => (v === "th" ? "en" : "th"))}
             type="button"
           >
