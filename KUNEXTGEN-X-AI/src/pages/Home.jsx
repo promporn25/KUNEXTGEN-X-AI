@@ -25,6 +25,7 @@ export default function Home({
 }) {
   const [tab, setTab] = useState("upload");
   const [mobilePanel, setMobilePanel] = useState("input"); // "input" | "result"
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
@@ -67,11 +68,13 @@ export default function Home({
   const changeTab = (id) => {
     setTab(id);
     setMobilePanel("input");
+    setMobileSidebarOpen(true);
     reset();
   };
 
   const goHome = () => {
     setMobilePanel("input");
+    setMobileSidebarOpen(false);
     setLoading(false);
     setResult(null);
     setError("");
@@ -84,11 +87,13 @@ export default function Home({
     setText(sample);
     setTab("text");
     setMobilePanel("input");
+    setMobileSidebarOpen(true);
     reset();
   };
 
   const handleRestore = (item) => {
     setMobilePanel("result");
+    setMobileSidebarOpen(false);
     setResultFileName(item.fileName || "");
     if (item.type === "text") {
       setResult({ type: "text", raw: item.result });
@@ -193,6 +198,7 @@ export default function Home({
 
     setLoading(false);
     setMobilePanel("result");
+    setMobileSidebarOpen(false);
   };
 
   const btnLabel = loading
@@ -246,6 +252,15 @@ export default function Home({
       <style>{styles(theme)}</style>
 
       <nav className="topnav">
+        <button
+          className="topnav-btn mobile-drawer-trigger"
+          type="button"
+          onClick={() => setMobileSidebarOpen((v) => !v)}
+          aria-label={isEnglish ? "Toggle input panel" : "เปิดแผงป้อนข้อมูล"}
+        >
+          {mobileSidebarOpen ? "✕" : "☰"}
+        </button>
+
         <button
           className="topnav-left"
           type="button"
@@ -362,8 +377,25 @@ export default function Home({
         </div>
       </nav>
 
-      <div className={`layout${mobilePanel === "result" ? " mobile-show-result" : ""}`}>
+      <div
+        className={`layout${mobilePanel === "result" ? " mobile-show-result" : ""}${
+          mobileSidebarOpen ? " mobile-sidebar-open" : ""
+        }`}
+      >
         <aside className="sidebar">
+          <div className="mobile-drawer-head">
+            <div className="mobile-drawer-title">
+              {isEnglish ? "Input Panel" : "แผงป้อนข้อมูล"}
+            </div>
+            <button
+              type="button"
+              className="topnav-btn mobile-drawer-close"
+              onClick={() => setMobileSidebarOpen(false)}
+            >
+              ✕
+            </button>
+          </div>
+
           <div className="sidebar-inner">
             <div className="tabs">
               {[
@@ -553,6 +585,12 @@ export default function Home({
           )}
         </main>
       </div>
+      <button
+        type="button"
+        className={`mobile-drawer-backdrop${mobileSidebarOpen ? " active" : ""}`}
+        onClick={() => setMobileSidebarOpen(false)}
+        aria-label={isEnglish ? "Close input panel" : "ปิดแผงป้อนข้อมูล"}
+      />
       {/* Mobile bottom nav */}
       <div className="mobile-bottom-nav">
         <button
