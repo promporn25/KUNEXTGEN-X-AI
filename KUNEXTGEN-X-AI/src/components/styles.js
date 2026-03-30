@@ -4508,11 +4508,6 @@ export const baseStyles = `
       height: 26px;
     }
 
-    /* On very small phones, hide lang toggle to prevent header overflow */
-    .topnav-lang-btn {
-      display: none;
-    }
-
     /* Compress history toggle to icon-only */
     .history-toggle {
       padding: 0 8px;
@@ -4527,6 +4522,10 @@ export const baseStyles = `
     }
 
     .history-chevron {
+      display: none;
+    }
+
+    .history-wrap {
       display: none;
     }
 
