@@ -550,26 +550,6 @@ export const baseStyles = `
     margin-bottom: 4px;
   }
 
-  .flow-section {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .flow-title {
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--text-2);
-    letter-spacing: 0;
-  }
-
-  .flow-hint {
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--text-3);
-    margin-top: -4px;
-  }
-
   .upload-hidden-input {
     display: none;
   }
