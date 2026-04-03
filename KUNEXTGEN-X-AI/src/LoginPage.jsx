@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react" ;
 import {
 finishGoogleRedirectLogin,
 loginWithEmail,
 loginWithGoogle,
 registerWithEmail,
-} from "./firebase";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+} from "./firebase" ;
+import { getAuth, sendPasswordResetEmail } from "firebase/auth" ;
 function ParticleCanvas() {
 const ref = useRef(null);
 useEffect(() => {
