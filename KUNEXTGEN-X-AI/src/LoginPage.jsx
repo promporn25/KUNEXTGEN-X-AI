@@ -46,7 +46,7 @@ draw();
 return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
 }, []);
 return (
-<canvas ref={ref} style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
+<canvas ref={ref} style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", width: "100%", height: "100%" }} />
 );
 }
 function GoogleIcon() {
