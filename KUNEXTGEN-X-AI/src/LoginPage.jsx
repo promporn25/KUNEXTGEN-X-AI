@@ -12,7 +12,7 @@ useEffect(() => {
 const canvas = ref.current;
 if (!canvas) return;
 const ctx = canvas.getContext("2d");
-const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeig
+const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
 resize();
 window.addEventListener("resize", resize);
 const pts = Array.from({ length: 42 }, () => ({
@@ -43,9 +43,9 @@ ctx.globalAlpha = 1;
 raf = requestAnimationFrame(draw);
 };
 draw();
+return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
 }, []);
 return (
-return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); }
 <canvas ref={ref} style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
 );
 }
