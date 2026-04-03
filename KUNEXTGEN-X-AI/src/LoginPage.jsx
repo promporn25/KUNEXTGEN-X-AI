@@ -43,7 +43,7 @@ ctx.globalAlpha = 1;
 raf = requestAnimationFrame(draw);
 };
 draw();
-},[onAuthSuccess]);
+}, []);
 return (
 return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); }
 <canvas ref={ref} style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
