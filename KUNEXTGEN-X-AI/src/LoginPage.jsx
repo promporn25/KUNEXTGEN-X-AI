@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef } from “react”;
+import { useState, useEffect, useRef } from "react";
 import {
 finishGoogleRedirectLogin,
 loginWithEmail,
 loginWithGoogle,
 registerWithEmail,
-} from “./firebase”;
+} from "./firebase";
 import {
 getAuth,
 sendPasswordResetEmail,
-} from “firebase/auth”;
+} from "firebase/auth" ;
 
 /* ─── Animated particle canvas ─── */
 function ParticleCanvas() {
