@@ -882,12 +882,14 @@ export default function LoginPage({ onAuthSuccess }) {
         .back-btn:hover {
           color: #06141B;
         }
-        @media (min-width: 768px) and (max-width: 980px) {
-          .login-card { max-width: 760px; grid-template-columns: 1fr 1.1fr; min-height: auto; }
-          .login-tagline { font-size: clamp(20px, 2.8vw, 27px); }
-          .field-input, .submit-btn, .google-btn { height: 48px; }
-          .login-right-inner { max-width: 310px; }
-        }
+  @media (min-width: 768px) and (max-width: 980px) {
+  .login-card { max-width: 760px; grid-template-columns: 1fr 1.1fr; min-height: auto; }
+  .login-tagline { font-size: clamp(20px, 2.8vw, 27px); }
+  .field-input, .submit-btn, .google-btn { height: 48px; }
+  .login-right-inner { max-width: 310px; }
+  .login-left { border-right: 1px solid rgba(255,255,255,0.06); border-bottom: none; }
+}
+
 
           .login-card {
             width: min(920px, 100%);
